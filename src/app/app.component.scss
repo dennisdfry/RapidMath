@@ -1,0 +1,29 @@
+// @use '@angular/material' as mat;
+
+section {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.mat-mdc-raised-button:not(:disabled) {
+    width: 350px;
+    height: 80px;
+    font-size: 48px;
+    color: aliceblue;
+    background-color: rgb(211, 246, 246);
+    &:hover{
+        color:rgb(211, 246, 246) ;
+        background-color: aliceblue;
+    }
+}
+.operation-container{
+    width: 100%;
+    height:150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 32px;
+}

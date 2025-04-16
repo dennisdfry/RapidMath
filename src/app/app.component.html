@@ -1,0 +1,15 @@
+<section>
+    <button *ngIf="startbutton" class="startButton" (click)="startGame()" mat-raised-button
+        matTooltip="By default, I delay"
+        aria-label="Button that displays a tooltip that has custom delays through a default config">
+        StartGame
+    </button>
+    <div *ngIf="playGame">
+        <div class="operation-container">
+            {{arethmeticNumberOne[operationIndex]}} + {{arethmeticNumberTwo[operationIndex]}}
+        </div>
+        <input (keyup.enter)="check()" [(ngModel)]="result">
+        <button (click)="check()">check</button>
+        <div *ngIf="wrong">wrong</div>
+    </div>
+</section>
