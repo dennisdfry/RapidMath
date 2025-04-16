@@ -32,9 +32,8 @@ export class AppComponent implements OnInit {
   startbutton: boolean = true;
   operatorOne: number = 0;
   operatorTwo: number = 0;
-
-
-
+  operation: any = '';
+  operator: string = '+';
   constructor() { };
 
 
@@ -55,9 +54,10 @@ export class AppComponent implements OnInit {
     return Math.floor(Math.random() * (this.max - this.min + 1)) + this.min;
   }
 
-  startGame() {
+  startGame(operatorHtml:string) {
     this.playGame = true;
     this.startbutton = false;
+    this.operator = operatorHtml;
   }
 
   nextround() {
@@ -85,8 +85,8 @@ export class AppComponent implements OnInit {
   }
 
   check() {
-    let operation = this.arethmeticNumberOne[this.operationIndex] + this.arethmeticNumberTwo[this.operationIndex];
-    if (operation == this.result) {
+    this.operation = eval(`${this.arethmeticNumberOne[this.operationIndex]} ${this.operator} ${this.arethmeticNumberTwo[this.operationIndex]}`);
+    if (this.operation == this.result) {
       this.nextround();
       if (this.operationIndex === 10) {
         this.finish();
