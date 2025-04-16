@@ -21,8 +21,11 @@ import { MatInputModule } from '@angular/material/input';
 export class AppComponent implements OnInit {
   arethmeticNumberOne: number[] = [];
   arethmeticNumberTwo: number[] = [];
-  nextPointArray: number[] = [1];
-  levelOne: number = 1;
+  nextPointArrayAddition: number[] = [];
+  nextPointArraySubtraction: number[] = [];
+  nextPointArrayMulti: number[] = [];
+  nextPointArrayDivision: number[] = [];
+  levelOne: number = 0;
   min: number = 1;
   max: number = 11;
   operationIndex: number = 0;
@@ -54,10 +57,27 @@ export class AppComponent implements OnInit {
     return Math.floor(Math.random() * (this.max - this.min + 1)) + this.min;
   }
 
-  startGame(operatorHtml:string) {
+  startGame(operatorHtml: string) {
     this.playGame = true;
     this.startbutton = false;
     this.operator = operatorHtml;
+
+    if (this.operator === '+') {
+     
+      console.log(this.nextPointArrayAddition)
+    }
+    if (this.operator === '-') {
+
+      console.log(this.nextPointArraySubtraction)
+    }
+    if (this.operator === '*') {
+
+      console.log(this.nextPointArrayMulti)
+    }
+    if (this.operator === '/') {
+
+      console.log(this.nextPointArrayDivision)
+    }
   }
 
   nextround() {
@@ -72,9 +92,22 @@ export class AppComponent implements OnInit {
   }
 
   nextLevel() {
-    this.min = 50;
-    this.max = 250;
-    this.nextPointArray.push(1);
+    if (this.operator === '+') {
+      this.nextPointArrayAddition.push(1);
+      console.log(this.nextPointArrayAddition)
+    }
+    if (this.operator === '-') {
+      this.nextPointArraySubtraction.push(1);
+      console.log(this.nextPointArraySubtraction)
+    }
+    if (this.operator === '*') {
+      this.nextPointArrayMulti.push(1);
+      console.log(this.nextPointArrayMulti)
+    }
+    if (this.operator === '/') {
+      this.nextPointArrayDivision.push(1);
+      console.log(this.nextPointArrayDivision)
+    }
     this.ngOnInit();
   }
 

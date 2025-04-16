@@ -1,14 +1,36 @@
 <section>
-    <button *ngIf="startbutton" class="startButton" (click)="startGame('+')" mat-raised-button
-        matTooltip="By default, I delay"
-        aria-label="Button that displays a tooltip that has custom delays through a default config">
-        Addition
-    </button>
-    <button *ngIf="startbutton" class="startButton" (click)="startGame('-')" mat-raised-button
-        matTooltip="By default, I delay"
-        aria-label="Button that displays a tooltip that has custom delays through a default config">
-       Subtraction
-    </button>
+    <div class="operator-class-container">
+        <button *ngIf="startbutton" class="startButton" (click)="startGame('+')" mat-raised-button
+            matTooltip="By default, I delay"
+            aria-label="Button that displays a tooltip that has custom delays through a default config">
+            Addition
+        </button>
+        <div class="level-container" *ngFor="let point of nextPointArrayAddition">{{point}}</div>
+    </div>
+    <div class="operator-class-container">
+        <button *ngIf="startbutton" class="startButton" (click)="startGame('-')" mat-raised-button
+            matTooltip="By default, I delay"
+            aria-label="Button that displays a tooltip that has custom delays through a default config">
+            Subtraction
+        </button>
+        <div class="level-container" *ngFor="let point of nextPointArraySubtraction">{{point}}</div>
+    </div>
+    <div class="operator-class-container">
+        <button *ngIf="startbutton" class="startButton" (click)="startGame('*')" mat-raised-button
+            matTooltip="By default, I delay"
+            aria-label="Button that displays a tooltip that has custom delays through a default config">
+            Multiplication
+        </button>
+        <div class="level-container" *ngFor="let point of nextPointArrayMulti">{{point}}</div>
+    </div>
+    <div class="operator-class-container">
+        <button *ngIf="startbutton" class="startButton" (click)="startGame('*')" mat-raised-button
+            matTooltip="By default, I delay"
+            aria-label="Button that displays a tooltip that has custom delays through a default config">
+            Division
+        </button>
+        <div class="level-container" *ngFor="let point of nextPointArrayDivision">{{point}}</div>
+    </div>
     <div *ngIf="playGame">
         <div class="operation-container">
             {{arethmeticNumberOne[operationIndex]}} {{operator}} {{arethmeticNumberTwo[operationIndex]}}
