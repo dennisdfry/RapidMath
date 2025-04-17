@@ -62,18 +62,18 @@ export class AppComponent implements OnInit {
     this.startbutton = false;
     this.operationIndex = 0;
     this.operator = operatorHtml;
+    this.checkOperator();
+ 
+  }
 
+  checkOperator(){
     if (this.operator === '+') {
-     
       console.log(this.nextPointArrayAddition)
     }else if (this.operator === '-') {
-
       console.log(this.nextPointArraySubtraction)
     }else  if (this.operator === '*') {
-
       console.log(this.nextPointArrayMulti)
     } else if (this.operator === '/') {
-
       console.log(this.nextPointArrayDivision)
     }
   }
