@@ -60,21 +60,19 @@ export class AppComponent implements OnInit {
   startGame(operatorHtml: string) {
     this.playGame = true;
     this.startbutton = false;
+    this.operationIndex = 0;
     this.operator = operatorHtml;
 
     if (this.operator === '+') {
      
       console.log(this.nextPointArrayAddition)
-    }
-    if (this.operator === '-') {
+    }else if (this.operator === '-') {
 
       console.log(this.nextPointArraySubtraction)
-    }
-    if (this.operator === '*') {
+    }else  if (this.operator === '*') {
 
       console.log(this.nextPointArrayMulti)
-    }
-    if (this.operator === '/') {
+    } else if (this.operator === '/') {
 
       console.log(this.nextPointArrayDivision)
     }
@@ -88,6 +86,7 @@ export class AppComponent implements OnInit {
   finish() {
     this.playGame = false;
     this.startbutton = true;
+    console.log(this.operator)
     this.nextLevel();
   }
 
@@ -121,7 +120,7 @@ export class AppComponent implements OnInit {
     this.operation = eval(`${this.arethmeticNumberOne[this.operationIndex]} ${this.operator} ${this.arethmeticNumberTwo[this.operationIndex]}`);
     if (this.operation == this.result) {
       this.nextround();
-      if (this.operationIndex === 10) {
+      if (this.operationIndex === 2) {
         this.finish();
       }
     } else {
