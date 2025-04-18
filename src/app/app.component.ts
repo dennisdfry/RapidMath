@@ -25,6 +25,7 @@ export class AppComponent implements OnInit {
   nextPointArraySubtraction: number[] = [];
   nextPointArrayMulti: number[] = [];
   nextPointArrayDivision: number[] = [];
+  randowResultsArray:number [] = [];
   levelOne: number = 0;
   min: number = 1;
   max: number = 11;
@@ -63,7 +64,16 @@ export class AppComponent implements OnInit {
     this.operationIndex = 0;
     this.operator = operatorHtml;
     this.checkOperator();
- 
+    this.operation = eval(`${this.arethmeticNumberOne[this.operationIndex]} ${this.operator} ${this.arethmeticNumberTwo[this.operationIndex]}`);
+    this.createRandomResults();
+  }
+
+  createRandomResults(){
+    for (let index = 0; index < 3; index++) {
+     this.randowResultsArray.push(this.mathRandomizer())
+      console.log(this.randowResultsArray);
+      
+    }
   }
 
   checkOperator(){
@@ -117,7 +127,6 @@ export class AppComponent implements OnInit {
   }
 
   check() {
-    this.operation = eval(`${this.arethmeticNumberOne[this.operationIndex]} ${this.operator} ${this.arethmeticNumberTwo[this.operationIndex]}`);
     if (this.operation == this.result) {
       this.nextround();
       if (this.operationIndex === 2) {
