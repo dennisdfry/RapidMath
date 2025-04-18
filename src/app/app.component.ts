@@ -25,7 +25,7 @@ export class AppComponent implements OnInit {
   nextPointArraySubtraction: number[] = [];
   nextPointArrayMulti: number[] = [];
   nextPointArrayDivision: number[] = [];
-  randowResultsArray:number [] = [];
+  randowResultsArray: number[] = [];
   levelOne: number = 0;
   min: number = 1;
   max: number = 11;
@@ -54,6 +54,11 @@ export class AppComponent implements OnInit {
     this.arethmeticNumberTwo.push(this.operatorTwo);
   }
 
+  cleararethmeticArrays(){
+    this.arethmeticNumberOne = [];
+    this.arethmeticNumberTwo = [];
+  }
+
   mathRandomizer() {
     return Math.floor(Math.random() * (this.max - this.min + 1)) + this.min;
   }
@@ -64,24 +69,23 @@ export class AppComponent implements OnInit {
     this.operationIndex = 0;
     this.operator = operatorHtml;
     this.checkOperator();
-    this.operation = eval(`${this.arethmeticNumberOne[this.operationIndex]} ${this.operator} ${this.arethmeticNumberTwo[this.operationIndex]}`);
     this.createRandomResults();
   }
 
-  createRandomResults(){
+  createRandomResults() {
     for (let index = 0; index < 3; index++) {
-     this.randowResultsArray.push(this.mathRandomizer())
+      this.randowResultsArray.push(this.mathRandomizer())
       console.log(this.randowResultsArray);
-      
+
     }
   }
 
-  checkOperator(){
+  checkOperator() {
     if (this.operator === '+') {
       console.log(this.nextPointArrayAddition)
-    }else if (this.operator === '-') {
+    } else if (this.operator === '-') {
       console.log(this.nextPointArraySubtraction)
-    }else  if (this.operator === '*') {
+    } else if (this.operator === '*') {
       console.log(this.nextPointArrayMulti)
     } else if (this.operator === '/') {
       console.log(this.nextPointArrayDivision)
@@ -97,6 +101,7 @@ export class AppComponent implements OnInit {
     this.playGame = false;
     this.startbutton = true;
     console.log(this.operator)
+    this.cleararethmeticArrays();
     this.nextLevel();
   }
 
@@ -124,12 +129,15 @@ export class AppComponent implements OnInit {
     this.wrong = true;
     this.playGame = false;
     this.startbutton = true;
+    this.cleararethmeticArrays()
+    this.ngOnInit();
   }
 
   check() {
+    this.operation = eval(`${this.arethmeticNumberOne[this.operationIndex]} ${this.operator} ${this.arethmeticNumberTwo[this.operationIndex]}`);
     if (this.operation == this.result) {
       this.nextround();
-      if (this.operationIndex === 2) {
+      if (this.operationIndex === 3) {
         this.finish();
       }
     } else {
