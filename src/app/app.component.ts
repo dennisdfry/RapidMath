@@ -42,6 +42,7 @@ export class AppComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.checkOperator();
     for (let index = 1; index < 11; index++) {
       this.operatorOne = this.mathRandomizer();
       this.operatorTwo = this.mathRandomizer();
@@ -54,7 +55,7 @@ export class AppComponent implements OnInit {
     this.arethmeticNumberTwo.push(this.operatorTwo);
   }
 
-  cleararethmeticArrays(){
+  cleararethmeticArrays() {
     this.arethmeticNumberOne = [];
     this.arethmeticNumberTwo = [];
   }
@@ -82,14 +83,35 @@ export class AppComponent implements OnInit {
 
   checkOperator() {
     if (this.operator === '+') {
-      console.log(this.nextPointArrayAddition)
+      if (this.nextPointArrayAddition.length < 1) {
+        return
+      } else {
+        this.increaseArethmetikNumber();
+      }
     } else if (this.operator === '-') {
-      console.log(this.nextPointArraySubtraction)
+      if (this.nextPointArraySubtraction.length < 1) {
+        return
+      } else {
+        this.increaseArethmetikNumber();
+      }
     } else if (this.operator === '*') {
-      console.log(this.nextPointArrayMulti)
+      if (this.nextPointArrayMulti.length < 1) {
+        return
+      } else {
+        this.increaseArethmetikNumber();
+      }
     } else if (this.operator === '/') {
-      console.log(this.nextPointArrayDivision)
+      if (this.nextPointArrayDivision.length < 1) {
+        return
+      } else {
+        this.increaseArethmetikNumber();
+      }
     }
+  }
+
+  increaseArethmetikNumber() {
+    this.min = this.min * this.nextPointArrayAddition.length;
+    this.max = this.max * this.nextPointArrayAddition.length;
   }
 
   nextround() {
