@@ -1,0 +1,42 @@
+<section>
+    <div class="operator-class-container">
+        <button *ngIf="startbutton" class="startButton" (click)="startGame('+')" mat-raised-button
+            matTooltip="By default, I delay"
+            aria-label="Button that displays a tooltip that has custom delays through a default config">
+            Addition
+        </button>
+        <div class="level-container" *ngFor="let pointAddition of nextPointArrayAddition">{{pointAddition}}</div>
+    </div>
+    <div class="operator-class-container">
+        <button *ngIf="startbutton" class="startButton" (click)="startGame('-')" mat-raised-button
+            matTooltip="By default, I delay"
+            aria-label="Button that displays a tooltip that has custom delays through a default config">
+            Subtraction
+        </button>
+        <div class="level-container" *ngFor="let pointSubtraction of nextPointArraySubtraction">{{pointSubtraction}}</div>
+    </div>
+    <div class="operator-class-container">
+        <button *ngIf="startbutton" class="startButton" (click)="startGame('*')" mat-raised-button
+            matTooltip="By default, I delay"
+            aria-label="Button that displays a tooltip that has custom delays through a default config">
+            Multiplication
+        </button>
+        <div class="level-container" *ngFor="let pointMulti of nextPointArrayMulti">{{pointMulti}}</div>
+    </div>
+    <div class="operator-class-container">
+        <button *ngIf="startbutton" class="startButton" (click)="startGame('*')" mat-raised-button
+            matTooltip="By default, I delay"
+            aria-label="Button that displays a tooltip that has custom delays through a default config">
+            Division
+        </button>
+        <div class="level-container" *ngFor="let point of nextPointArrayDivision">{{point}}</div>
+    </div>
+    <div *ngIf="playGame">
+        <div class="operation-container">
+            {{arethmeticNumberOne[operationIndex]}} {{operator}} {{arethmeticNumberTwo[operationIndex]}}
+        </div>
+        <input (keyup.enter)="check()" [(ngModel)]="result">
+        <button (click)="check()">check</button>
+        <div *ngIf="wrong">wrong</div>
+    </div>
+</section>
