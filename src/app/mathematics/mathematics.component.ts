@@ -68,12 +68,20 @@ export class MathematicsComponent  implements OnInit {
   }
 
   startGame(operatorHtml: string) {
+    this.initOperator();
     this.playGame = true;
     this.startbutton = false;
     this.operationIndex = 0;
     this.operator = operatorHtml;
     this.checkOperator();
     this.createRandomResults();
+    console.log(this.nextPointArrayAddition)
+    console.log(this.nextPointArrayMulti)
+    console.log(this.nextPointArraySubtraction)
+    console.log(this.nextPointArrayDivision)
+    
+
+   
   }
 
   createRandomResults() {
@@ -87,34 +95,34 @@ export class MathematicsComponent  implements OnInit {
   checkOperator() {
     if (this.operator === '+') {
       if (this.nextPointArrayAddition.length < 1) {
-        return
+        return;
       } else {
-        this.increaseArethmetikNumber();
+        this.increaseArethmetikNumber(this.nextPointArrayAddition);
       }
     } else if (this.operator === '-') {
       if (this.nextPointArraySubtraction.length < 1) {
-        return
+        return;
       } else {
-        this.increaseArethmetikNumber();
+        this.increaseArethmetikNumber(this.nextPointArraySubtraction);
       }
     } else if (this.operator === '*') {
       if (this.nextPointArrayMulti.length < 1) {
-        return
+        return;
       } else {
-        this.increaseArethmetikNumber();
+        this.increaseArethmetikNumber(this.nextPointArrayMulti);
       }
     } else if (this.operator === '/') {
       if (this.nextPointArrayDivision.length < 1) {
-        return
+        return;
       } else {
-        this.increaseArethmetikNumber();
+        this.increaseArethmetikNumber(this.nextPointArrayDivision);
       }
     }
   }
-
-  increaseArethmetikNumber() {
-    this.min = this.min * this.nextPointArrayAddition.length;
-    this.max = this.max * this.nextPointArrayAddition.length;
+  
+  increaseArethmetikNumber(array: number[]) {
+    this.min = this.min * array.length;
+    this.max = this.max * array.length;
   }
 
   nextround() {
