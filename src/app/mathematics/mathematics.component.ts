@@ -39,7 +39,7 @@ export class MathematicsComponent implements OnInit {
   operation: any = '';
   operator: string = '+';
   arrayName: string = '';
-  exchangeResult:number = 0;
+  exchangeResult: number = 0;
   constructor() { };
 
 
@@ -74,13 +74,14 @@ export class MathematicsComponent implements OnInit {
 
   startGame(operatorHtml: string) {
     this.InitOperator();
-    this.InitOperation();
+
     this.playGame = true;
     this.startbutton = false;
     this.operationIndex = 0;
     this.operator = operatorHtml;
     this.checkOperator();
     this.createRandomResults();
+    this.InitOperation();
     this.checkRandomResults();
     console.log(this.nextPointArrayAddition)
     console.log(this.nextPointArrayMulti)
@@ -88,21 +89,21 @@ export class MathematicsComponent implements OnInit {
     console.log(this.nextPointArrayDivision)
   }
 
-  checkRandomResults(){
+  checkRandomResults() {
     let filter = this.randowResultsArray.filter(zahl => zahl === this.operation);
-    console.log(filter)
-      
-    
+    if (filter.length > 1)
+      console.log(filter)
   }
 
   createRandomResults() {
+    this.randowResultsArray = [];
     for (let index = 0; index < 3; index++) {
       this.randowResultsArray.push(this.mathRandomizer())
       console.log(this.randowResultsArray);
     }
   }
 
-  createNewResult(){
+  createNewResult() {
     this.exchangeResult = this.mathRandomizer()
   }
 
@@ -142,6 +143,8 @@ export class MathematicsComponent implements OnInit {
   nextround() {
     this.result = null;
     this.operationIndex++
+    this.createRandomResults();
+    this.InitOperation();
   }
 
   finish() {
@@ -180,7 +183,7 @@ export class MathematicsComponent implements OnInit {
     this.ngOnInit();
   }
 
-  check(result:number) {
+  check(result: number) {
     if (this.operation == result) {
       this.nextround();
       if (this.operationIndex === 3) {
