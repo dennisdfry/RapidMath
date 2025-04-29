@@ -74,37 +74,35 @@ export class MathematicsComponent implements OnInit {
 
   startGame(operatorHtml: string) {
     this.InitOperator();
-
     this.playGame = true;
     this.startbutton = false;
     this.operationIndex = 0;
     this.operator = operatorHtml;
     this.checkOperator();
-    this.createRandomResults();
     this.InitOperation();
-    this.checkRandomResults();
+    this.createRandomResults();
     console.log(this.nextPointArrayAddition)
     console.log(this.nextPointArrayMulti)
     console.log(this.nextPointArraySubtraction)
     console.log(this.nextPointArrayDivision)
   }
 
-  checkRandomResults() {
-    let filter = this.randowResultsArray.filter(zahl => zahl === this.operation);
-    if (filter.length > 1)
-      console.log(filter)
-  }
-
   createRandomResults() {
-    this.randowResultsArray = [];
-    for (let index = 0; index < 3; index++) {
-      this.randowResultsArray.push(this.mathRandomizer())
-      console.log(this.randowResultsArray);
+    while (this.randowResultsArray.length < 4) {
+      const result = this.mathRandomizer();
+      if (!this.randowResultsArray.includes(result)) {
+        this.randowResultsArray.push(result);
+      }
     }
+    console.log(this.randowResultsArray);
+    this.shuffleArray()
   }
 
-  createNewResult() {
-    this.exchangeResult = this.mathRandomizer()
+  shuffleArray() {
+    for (let i = this.randowResultsArray.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [this.randowResultsArray[i], this.randowResultsArray[j]] = [this.randowResultsArray[j], this.randowResultsArray[i]];
+    }
   }
 
   checkOperator() {
@@ -143,13 +141,15 @@ export class MathematicsComponent implements OnInit {
   nextround() {
     this.result = null;
     this.operationIndex++
-    this.createRandomResults();
+    this.randowResultsArray = [];
     this.InitOperation();
+    this.createRandomResults();
   }
 
   finish() {
     this.playGame = false;
     this.startbutton = true;
+    this.randowResultsArray = [];
     console.log(this.operator)
     this.cleararethmeticArrays();
     this.nextLevel();
