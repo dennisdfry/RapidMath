@@ -5,7 +5,6 @@
             aria-label="Button that displays a tooltip that has custom delays through a default config">
             Addition
         </button>
-        <div class="level-container" *ngFor="let pointAddition of nextPointArrayAddition">{{pointAddition}}</div>
     </div>
     <div class="operator-class-container">
         <button *ngIf="startbutton" class="startButton" (click)="startGame('-')" mat-raised-button
@@ -13,8 +12,6 @@
             aria-label="Button that displays a tooltip that has custom delays through a default config">
             Subtraction
         </button>
-        <div class="level-container" *ngFor="let pointSubtraction of nextPointArraySubtraction">{{pointSubtraction}}
-        </div>
     </div>
     <div class="operator-class-container">
         <button *ngIf="startbutton" class="startButton" (click)="startGame('*')" mat-raised-button
@@ -22,19 +19,15 @@
             aria-label="Button that displays a tooltip that has custom delays through a default config">
             Multiplication
         </button>
-        <div class="level-container" *ngFor="let pointMulti of nextPointArrayMulti">{{pointMulti}}</div>
     </div>
-    <div class="operator-class-container">
-        <button *ngIf="startbutton" class="startButton" (click)="startGame('/')" mat-raised-button
-            matTooltip="By default, I delay"
+    <!-- <div class="operator-class-container ">
+        <button class="startButton" (click)="startGame('/')" mat-raised-button matTooltip="By default, I delay"
             aria-label="Button that displays a tooltip that has custom delays through a default config">
             Division
         </button>
-        <div *ngIf="playGame">
-            <div class="level-container" *ngFor="let point of nextPointArrayDivision">{{point}}
-            </div>
+        <div class="level-container" *ngFor="let point of nextPointArrayDivision">{{point}}
         </div>
-    </div>
+    </div> -->
     <div *ngIf="playGame">
         <div class="operation-container">
             {{arethmeticNumberOne[operationIndex]}} {{operator}} {{arethmeticNumberTwo[operationIndex]}}
@@ -44,6 +37,19 @@
                 {{result}}
             </div>
         </div>
-        <div *ngIf="wrong">wrong</div>
+        <div *ngIf="showLevelBooleanAddition" class="level-container-addition">
+            <div *ngIf="showLevelBooleanAddition" class="level-container" >Level {{nextPointArrayAddition.length+1}}</div>
+        </div>
+        <div *ngIf="showLevelBooleanSubtraction" class="level-container-addition">
+            <div *ngIf="showLevelBooleanSubtraction" class="level-container" >Level {{nextPointArraySubtraction.length+1}}</div>
+        </div>
+        <div *ngIf="showLevelBooleanMulti" class="level-container-addition">
+            <div *ngIf="showLevelBooleanMulti" class="level-container" >Level {{nextPointArrayMulti.length+1}}</div>
+        </div>
+        <div class="bar-container">
+            <div class="bar" [style.width.%]="barWidth"></div>
+          </div>
+          
+        <div *ngIf="wrong" class="fail-container">fail</div>
     </div>
 </section>

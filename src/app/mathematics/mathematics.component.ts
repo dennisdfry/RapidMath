@@ -18,7 +18,7 @@ import { MatInputModule } from '@angular/material/input';
   templateUrl: './mathematics.component.html',
   styleUrl: './mathematics.component.scss'
 })
-export class MathematicsComponent implements OnInit {
+export class MathematicsComponent {
   arethmeticNumberOne: number[] = [];
   arethmeticNumberTwo: number[] = [];
   nextPointArrayAddition: number[] = [];
@@ -40,11 +40,13 @@ export class MathematicsComponent implements OnInit {
   operator: string = '+';
   arrayName: string = '';
   exchangeResult: number = 0;
+  division: boolean = false;
+  showLevelBooleanAddition: boolean = false;
+  showLevelBooleanSubtraction: boolean = false;
+  showLevelBooleanMulti: boolean = false;
+  barWidth = 100;
+
   constructor() { };
-
-
-  ngOnInit(): void {
-  }
 
   InitOperator() {
     for (let index = 1; index < 11; index++) {
@@ -53,6 +55,7 @@ export class MathematicsComponent implements OnInit {
       this.fillOperationArray();
     }
   }
+
   InitOperation() {
     this.operation = eval(`${this.arethmeticNumberOne[this.operationIndex]} ${this.operator} ${this.arethmeticNumberTwo[this.operationIndex]}`);
     this.randowResultsArray.push(this.operation);
@@ -72,20 +75,36 @@ export class MathematicsComponent implements OnInit {
     return Math.floor(Math.random() * (this.max - this.min + 1)) + this.min;
   }
 
-  startGame(operatorHtml: string) {
+  async startGame(operatorHtml: string) {
+    this.min = 1;
+    this.max = 11;
     this.InitOperator();
-    this.playGame = true;
     this.startbutton = false;
     this.operationIndex = 0;
     this.operator = operatorHtml;
-    this.checkOperator();
+    await this.checkOperator();
     this.InitOperation();
     this.createRandomResults();
+    this.playGame = true;
+    this.startCountdownBar(10);
     console.log(this.nextPointArrayAddition)
     console.log(this.nextPointArrayMulti)
     console.log(this.nextPointArraySubtraction)
     console.log(this.nextPointArrayDivision)
   }
+
+  startCountdownBar(seconds: number) {
+    const start = Date.now();
+    const interval = setInterval(() => {
+      const elapsed = Math.floor((Date.now() - start) / 1000);
+      const remaining = Math.max(0, seconds - elapsed);
+      this.barWidth = (remaining / seconds) * 100;
+      if (remaining <= 0) {
+        clearInterval(interval);
+      }
+    }, 1000);
+  }
+
 
   createRandomResults() {
     while (this.randowResultsArray.length < 4) {
@@ -105,20 +124,32 @@ export class MathematicsComponent implements OnInit {
     }
   }
 
-  checkOperator() {
+  async checkOperator(): Promise<void>{
     if (this.operator === '+') {
+      this.showLevelBooleanAddition = true;
+      setTimeout(() => {
+        this.showLevelBooleanAddition = false;
+      }, 1200);
       if (this.nextPointArrayAddition.length < 1) {
         return;
       } else {
         this.increaseArethmetikNumber(this.nextPointArrayAddition);
       }
     } else if (this.operator === '-') {
+      this.showLevelBooleanSubtraction = true;
+      setTimeout(() => {
+        this.showLevelBooleanSubtraction = false;
+      }, 1000);
       if (this.nextPointArraySubtraction.length < 1) {
         return;
       } else {
         this.increaseArethmetikNumber(this.nextPointArraySubtraction);
       }
     } else if (this.operator === '*') {
+      this.showLevelBooleanMulti = true;
+      setTimeout(() => {
+        this.showLevelBooleanMulti = false;
+      }, 3000);
       if (this.nextPointArrayMulti.length < 1) {
         return;
       } else {
@@ -131,11 +162,12 @@ export class MathematicsComponent implements OnInit {
         this.increaseArethmetikNumber(this.nextPointArrayDivision);
       }
     }
+
   }
 
   increaseArethmetikNumber(array: number[]) {
-    this.min = this.min * array.length;
-    this.max = this.max * array.length;
+    this.min = this.min * (array.length + 1);
+    this.max = this.max * (array.length + 1);
   }
 
   nextround() {
@@ -144,6 +176,7 @@ export class MathematicsComponent implements OnInit {
     this.randowResultsArray = [];
     this.InitOperation();
     this.createRandomResults();
+    this.startCountdownBar(10);
   }
 
   finish() {
@@ -153,6 +186,7 @@ export class MathematicsComponent implements OnInit {
     console.log(this.operator)
     this.cleararethmeticArrays();
     this.nextLevel();
+
   }
 
   nextLevel() {
@@ -172,15 +206,14 @@ export class MathematicsComponent implements OnInit {
       this.nextPointArrayDivision.push(1);
       console.log(this.nextPointArrayDivision)
     }
-    this.ngOnInit();
   }
 
   loose() {
     this.wrong = true;
     this.playGame = false;
     this.startbutton = true;
-    this.cleararethmeticArrays()
-    this.ngOnInit();
+    this.randowResultsArray = [];
+    this.cleararethmeticArrays();
   }
 
   check(result: number) {
