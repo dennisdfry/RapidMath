@@ -15,10 +15,10 @@ import { MatInputModule } from '@angular/material/input';
   selector: 'app-mathematics',
   standalone: true,
   imports: [CommonModule, FormsModule, MatButtonModule, MatTooltipModule, MatInputModule],
-    templateUrl: './mathematics.component.html',
+  templateUrl: './mathematics.component.html',
   styleUrl: './mathematics.component.scss'
 })
-export class MathematicsComponent  implements OnInit {
+export class MathematicsComponent implements OnInit {
   arethmeticNumberOne: number[] = [];
   arethmeticNumberTwo: number[] = [];
   nextPointArrayAddition: number[] = [];
@@ -38,19 +38,24 @@ export class MathematicsComponent  implements OnInit {
   operatorTwo: number = 0;
   operation: any = '';
   operator: string = '+';
-  arrayName:string = '';
-  constructor() {};
+  arrayName: string = '';
+  exchangeResult:number = 0;
+  constructor() { };
 
 
   ngOnInit(): void {
   }
 
-  initOperator(){
+  InitOperator() {
     for (let index = 1; index < 11; index++) {
       this.operatorOne = this.mathRandomizer();
       this.operatorTwo = this.mathRandomizer();
       this.fillOperationArray();
     }
+  }
+  InitOperation() {
+    this.operation = eval(`${this.arethmeticNumberOne[this.operationIndex]} ${this.operator} ${this.arethmeticNumberTwo[this.operationIndex]}`);
+    this.randowResultsArray.push(this.operation);
   }
 
   fillOperationArray() {
@@ -68,28 +73,37 @@ export class MathematicsComponent  implements OnInit {
   }
 
   startGame(operatorHtml: string) {
-    this.initOperator();
+    this.InitOperator();
+    this.InitOperation();
     this.playGame = true;
     this.startbutton = false;
     this.operationIndex = 0;
     this.operator = operatorHtml;
     this.checkOperator();
     this.createRandomResults();
+    this.checkRandomResults();
     console.log(this.nextPointArrayAddition)
     console.log(this.nextPointArrayMulti)
     console.log(this.nextPointArraySubtraction)
     console.log(this.nextPointArrayDivision)
-    
+  }
 
-   
+  checkRandomResults(){
+    let filter = this.randowResultsArray.filter(zahl => zahl === this.operation);
+    console.log(filter)
+      
+    
   }
 
   createRandomResults() {
     for (let index = 0; index < 3; index++) {
       this.randowResultsArray.push(this.mathRandomizer())
       console.log(this.randowResultsArray);
-
     }
+  }
+
+  createNewResult(){
+    this.exchangeResult = this.mathRandomizer()
   }
 
   checkOperator() {
@@ -119,7 +133,7 @@ export class MathematicsComponent  implements OnInit {
       }
     }
   }
-  
+
   increaseArethmetikNumber(array: number[]) {
     this.min = this.min * array.length;
     this.max = this.max * array.length;
@@ -166,9 +180,8 @@ export class MathematicsComponent  implements OnInit {
     this.ngOnInit();
   }
 
-  check() {
-    this.operation = eval(`${this.arethmeticNumberOne[this.operationIndex]} ${this.operator} ${this.arethmeticNumberTwo[this.operationIndex]}`);
-    if (this.operation == this.result) {
+  check(result:number) {
+    if (this.operation == result) {
       this.nextround();
       if (this.operationIndex === 3) {
         this.finish();

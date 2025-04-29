@@ -35,8 +35,11 @@
         <div class="operation-container">
             {{arethmeticNumberOne[operationIndex]}} {{operator}} {{arethmeticNumberTwo[operationIndex]}}
         </div>
-        <input (keyup.enter)="check()" [(ngModel)]="result">
-        <button (click)="check()">check</button>
+        <div>
+            <div *ngFor="let result of randowResultsArray;" (click)="check(result)">
+                {{result}}
+            </div>
+        </div>
         <div *ngIf="wrong">wrong</div>
     </div>
 </section>
