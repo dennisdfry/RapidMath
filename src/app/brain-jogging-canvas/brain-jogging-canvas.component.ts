@@ -21,6 +21,7 @@ export class BrainJoggingCanvasComponent implements OnInit, OnDestroy {
   points: Point[] = [];
   private intervalId: any;
   score: number = 0;
+  firstPointRef:number = 0;
 
   ngOnInit(): void {
     const canvas = this.canvasRef.nativeElement;
@@ -33,7 +34,7 @@ export class BrainJoggingCanvasComponent implements OnInit, OnDestroy {
       this.generateRandomPoints();
       this.clearCanvas();
       this.drawPoints();
-    }, 5000); // alle 5 Sekunden neu
+    }, 10000); 
   }
 
   ngOnDestroy(): void {
@@ -44,27 +45,26 @@ export class BrainJoggingCanvasComponent implements OnInit, OnDestroy {
     this.points = [];
     for (let i = 0; i < 20; i++) {
       this.points.push({
-        x: Math.random() * 780 + 10, // Canvas-Größe beachten
-        y: Math.random() * 580 + 10,
-        radius: 10,
+        x: Math.random() * 750 + 20, 
+        y: Math.random() * 550 + 20,
+        radius: 20,
         numberOfPoint: i
       });
     }
   }
 
   drawPoints(): void {
-    this.ctx.fillStyle = 'blue';
-    this.ctx.font = '14px Arial';
+    this.ctx.font = '16px Arial';
     this.ctx.textAlign = 'center';
     this.ctx.textBaseline = 'middle';
-    this.ctx.fillStyle = 'blue';
     this.points.forEach(point => {
+      this.ctx.fillStyle = '#3DCFB6';
       this.ctx.beginPath();
       this.ctx.arc(point.x, point.y, point.radius, 0, Math.PI * 2);
       this.ctx.fill();
       this.ctx.fillStyle = 'white';
       this.ctx.fillText((point.numberOfPoint + 1).toString(), point.x, point.y);
-      this.ctx.fillStyle = 'blue';
+      
     });
   }
 
@@ -76,17 +76,14 @@ export class BrainJoggingCanvasComponent implements OnInit, OnDestroy {
     const rect = this.canvasRef.nativeElement.getBoundingClientRect();
     const clickX = event.clientX - rect.left;
     const clickY = event.clientY - rect.top;
-
-    // Überprüfen, ob ein Punkt angeklickt wurde
     for (let i = 0; i < this.points.length; i++) {
       const p = this.points[i];
       const dist = Math.hypot(p.x - clickX, p.y - clickY);
 
-      if (dist <= p.radius) {
+      if (dist <= p.radius && p.numberOfPoint === this.firstPointRef) {
+        this.firstPointRef++;
         this.score++;
         console.log('Getroffen! Punktestand:', this.score);
-
-        // Optional: Getroffenen Punkt entfernen
         this.points.splice(i, 1);
         this.clearCanvas();
         this.drawPoints();
