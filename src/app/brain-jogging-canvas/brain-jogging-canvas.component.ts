@@ -41,17 +41,54 @@ export class BrainJoggingCanvasComponent implements OnInit, OnDestroy {
     clearInterval(this.intervalId);
   }
 
+  // generateRandomPoints(): void {
+  //   this.points = [];
+  //   for (let i = 0; i < 20; i++) {
+  //     this.points.push({
+  //       x: Math.random() * 750 + 20, 
+  //       y: Math.random() * 550 + 20,
+  //       radius: 20,
+  //       numberOfPoint: i
+  //     });
+  //   }
+  // }
+
   generateRandomPoints(): void {
     this.points = [];
+    const minDistance = 2 * 20 + 10; // 2 * Radius + Puffer
+  
+    let attempts = 0;
+  
     for (let i = 0; i < 20; i++) {
-      this.points.push({
-        x: Math.random() * 750 + 20, 
-        y: Math.random() * 550 + 20,
-        radius: 20,
-        numberOfPoint: i
-      });
+      let validPoint = false;
+  
+      while (!validPoint && attempts < 500) { // Sicherheitsabbruch nach vielen Versuchen
+        const newPoint = {
+          x: Math.random() * 750 + 20,
+          y: Math.random() * 550 + 20,
+          radius: 20,
+          numberOfPoint: i
+        };
+  
+        let overlaps = false;
+        for (const p of this.points) {
+          const dist = Math.hypot(p.x - newPoint.x, p.y - newPoint.y);
+          if (dist < minDistance) {
+            overlaps = true;
+            break;
+          }
+        }
+  
+        if (!overlaps) {
+          this.points.push(newPoint);
+          validPoint = true;
+        }
+  
+        attempts++;
+      }
     }
   }
+  
 
   drawPoints(): void {
     this.ctx.font = '16px Arial';
