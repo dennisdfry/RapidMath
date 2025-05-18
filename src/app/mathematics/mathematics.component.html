@@ -28,6 +28,10 @@
         <div class="level-container" *ngFor="let point of nextPointArrayDivision">{{point}}
         </div>
     </div> -->
+    <div class="operator-class-container">
+        <button class="startButton" [routerLink]="['/mainpage']" mat-raised-button matTooltip="By default, I delay"
+            aria-label="Button that displays a tooltip that has custom delays through a default config">back</button>
+    </div>
     <div *ngIf="playGame">
         <div class="operation-container">
             {{arethmeticNumberOne[operationIndex]}} {{operator}} {{arethmeticNumberTwo[operationIndex]}}
@@ -38,18 +42,19 @@
             </div>
         </div>
         <div *ngIf="showLevelBooleanAddition" class="level-container-addition">
-            <div *ngIf="showLevelBooleanAddition" class="level-container" >Level {{nextPointArrayAddition.length+1}}</div>
+            <div *ngIf="showLevelBooleanAddition" class="level-container">Level {{nextPointArrayAddition.length+1}}
+            </div>
         </div>
         <div *ngIf="showLevelBooleanSubtraction" class="level-container-addition">
-            <div *ngIf="showLevelBooleanSubtraction" class="level-container" >Level {{nextPointArraySubtraction.length+1}}</div>
+            <div *ngIf="showLevelBooleanSubtraction" class="level-container">Level
+                {{nextPointArraySubtraction.length+1}}</div>
         </div>
         <div *ngIf="showLevelBooleanMulti" class="level-container-addition">
-            <div *ngIf="showLevelBooleanMulti" class="level-container" >Level {{nextPointArrayMulti.length+1}}</div>
+            <div *ngIf="showLevelBooleanMulti" class="level-container">Level {{nextPointArrayMulti.length+1}}</div>
         </div>
         <div class="bar-container">
             <div class="bar" [style.width.%]="barWidth"></div>
-          </div>
-          
+        </div>
         <div *ngIf="wrong" class="fail-container">fail</div>
     </div>
 </section>

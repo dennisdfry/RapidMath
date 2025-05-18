@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
+import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import {
   MAT_TOOLTIP_DEFAULT_OPTIONS,
@@ -14,7 +14,7 @@ import { MatInputModule } from '@angular/material/input';
 @Component({
   selector: 'app-mathematics',
   standalone: true,
-  imports: [CommonModule, FormsModule, MatButtonModule, MatTooltipModule, MatInputModule],
+  imports: [CommonModule, FormsModule, MatButtonModule, MatTooltipModule, MatInputModule, RouterModule],
   templateUrl: './mathematics.component.html',
   styleUrl: './mathematics.component.scss'
 })

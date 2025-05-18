@@ -89,7 +89,9 @@ export class BrainJoggingCanvasComponent implements AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+      if (typeof cancelAnimationFrame !== 'undefined') {
     cancelAnimationFrame(this.animationFrameId);
+  }
     clearInterval(this.rearrangeIntervalId);
     clearInterval(this.updateProgressId);
     clearTimeout(this.gameTimeoutId);
