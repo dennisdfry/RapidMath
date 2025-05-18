@@ -1,5 +1,4 @@
 
-
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, OnDestroy, AfterViewInit, ViewChild } from '@angular/core';
 import { RouterModule } from '@angular/router';
@@ -22,34 +21,78 @@ export class BrainJoggingCanvasComponent implements AfterViewInit, OnDestroy {
   @ViewChild('brainCanvas', { static: false }) canvasRef!: ElementRef<HTMLCanvasElement>;
   private ctx!: CanvasRenderingContext2D;
   points: Point[] = [];
-  clickedPoints: Point[] = []; 
-  private intervalId: any;
+  clickedPoints: Point[] = [];
   score: number = 0;
   firstPointRef: number = 0;
   endGameSequenz: boolean = false;
   startMindClicker: boolean = true;
-  secondPhaseStarted: boolean = false; 
+  secondPhaseStarted: boolean = false;
+  progressPercent: number = 0;
 
-  ngAfterViewInit(): void {
+  private rearrangeIntervalId: any;
+  private updateProgressId: any;
+  private gameDuration = 30000; // 30 Sekunden
+  private colorChangeInterval = 5000; // 5 Sekunden
+  private startTime = 0;
+  private animationFrameId: number = 0;
+  private colorToggle = false;
+  private colorIntervalId: any;
+  private gameTimeoutId: any;
+
+  // ngAfterViewInit(): void {
+  //   const canvas = this.canvasRef.nativeElement;
+  //   this.ctx = canvas.getContext('2d')!;
+  //   canvas.addEventListener('click', this.handleClick.bind(this));
+
+  //   this.generateRandomPoints();
+  //   this.startTime = Date.now();
+  //   this.draw();
+
+  //   this.colorIntervalId = setInterval(() => {
+  //     this.colorToggle = !this.colorToggle;
+  //   }, this.colorChangeInterval);
+
+  //   setTimeout(() => {
+  //     this.rearrangeRemainingPoints();
+  //   }, 5000);
+
+  //   this.gameTimeoutId = setTimeout(() => {
+  //     this.endGame();
+  //   }, this.gameDuration);
+  // }
+
+   ngAfterViewInit(): void {
     const canvas = this.canvasRef.nativeElement;
     this.ctx = canvas.getContext('2d')!;
     canvas.addEventListener('click', this.handleClick.bind(this));
-    this.generateRandomPoints();
-    this.drawPoints();
-    
-    
-    setTimeout(() => {
-      this.rearrangeRemainingPoints();
-    }, 5000);
 
-   
-    setTimeout(() => {
+    this.generateRandomPoints();
+    this.startTime = Date.now();
+    this.draw();
+
+    // Punkte alle 5 Sekunden neu anordnen
+    this.rearrangeIntervalId = setInterval(() => {
+      this.rearrangeRemainingPoints();
+      this.colorToggle = !this.colorToggle;
+    }, this.colorChangeInterval);
+
+    // Spiel endet nach 30 Sekunden
+    this.gameTimeoutId = setTimeout(() => {
       this.endGame();
-    }, 20000);
+    }, this.gameDuration);
+
+    // Fortschritt regelmäßig aktualisieren
+    this.updateProgressId = setInterval(() => {
+      const elapsed = Date.now() - this.startTime;
+      this.progressPercent = Math.min((elapsed / this.gameDuration) * 100, 100);
+    }, 100);
   }
 
   ngOnDestroy(): void {
-    clearInterval(this.intervalId);
+    cancelAnimationFrame(this.animationFrameId);
+    clearInterval(this.rearrangeIntervalId);
+    clearInterval(this.updateProgressId);
+    clearTimeout(this.gameTimeoutId);
   }
 
   handleClick(event: MouseEvent): void {
@@ -64,13 +107,8 @@ export class BrainJoggingCanvasComponent implements AfterViewInit, OnDestroy {
       if (dist <= p.radius && p.numberOfPoint === this.firstPointRef) {
         this.firstPointRef++;
         this.score++;
-
-        console.log('Getroffen! Punktestand:', this.score);
-
-        this.clickedPoints.push(p); 
-        this.points.splice(i, 1);   
-        this.clearCanvas();
-        this.drawPoints();
+        this.clickedPoints.push(p);
+        this.points.splice(i, 1);
         break;
       }
     }
@@ -106,30 +144,9 @@ export class BrainJoggingCanvasComponent implements AfterViewInit, OnDestroy {
     }
   }
 
-  drawPoints(): void {
-    this.clearCanvas();
-    this.ctx.font = '16px Arial';
-    this.ctx.textAlign = 'center';
-    this.ctx.textBaseline = 'middle';
-
-    this.points.forEach(point => {
-      this.ctx.fillStyle = this.secondPhaseStarted ? '#FF5733' : '#3DCFB6'; 
-      this.ctx.beginPath();
-      this.ctx.arc(point.x, point.y, point.radius, 0, Math.PI * 2);
-      this.ctx.fill();
-      this.ctx.fillStyle = 'white';
-      this.ctx.fillText((point.numberOfPoint + 1).toString(), point.x, point.y);
-    });
-  }
-
-  clearCanvas(): void {
-    this.ctx.clearRect(0, 0, 800, 600);
-  }
-
   rearrangeRemainingPoints(): void {
-    console.log('Neue Runde: Punkte werden neu verteilt...');
     this.secondPhaseStarted = true;
-    const remainingPoints = [...this.points]; 
+    const remainingPoints = [...this.points];
     this.points = [];
     const minDistance = 2 * 20 + 10;
     let attempts = 0;
@@ -154,10 +171,53 @@ export class BrainJoggingCanvasComponent implements AfterViewInit, OnDestroy {
         attempts++;
       }
     }
-    this.drawPoints();
   }
-  endGame(): void {
+
+  draw = (): void => {
+    this.clearCanvas();
+    this.drawPoints();
+    this.drawTimeBar();
+
+    if (!this.endGameSequenz) {
+      this.animationFrameId = requestAnimationFrame(this.draw);
+    }
+  };
+
+  drawPoints(): void {
+    this.ctx.font = '16px Arial';
+    this.ctx.textAlign = 'center';
+    this.ctx.textBaseline = 'middle';
+
+    this.points.forEach(point => {
+      this.ctx.fillStyle = this.colorToggle ? '#FF5733' : '#3DCFB6';
+      this.ctx.beginPath();
+      this.ctx.arc(point.x, point.y, point.radius, 0, Math.PI * 2);
+      this.ctx.fill();
+      this.ctx.fillStyle = 'white';
+      this.ctx.fillText((point.numberOfPoint + 1).toString(), point.x, point.y);
+    });
+  }
+
+  drawTimeBar(): void {
+    const elapsed = Date.now() - this.startTime;
+    const progress = Math.min(elapsed / this.gameDuration, 1);
+    const width = 800 * (1 - progress);
+
+    this.ctx.fillStyle = '#ccc';
+    this.ctx.fillRect(0, 580, 800, 20);
+    this.ctx.fillStyle = '#4CAF50';
+    this.ctx.fillRect(0, 580, width, 20);
+  }
+
+  clearCanvas(): void {
+    this.ctx.clearRect(0, 0, 800, 600);
+  }
+
+    endGame(): void {
     this.endGameSequenz = true;
+    cancelAnimationFrame(this.animationFrameId);
+    clearInterval(this.rearrangeIntervalId);
+    clearInterval(this.updateProgressId);
     console.log('Spiel vorbei! Endpunktestand:', this.score);
   }
 }
