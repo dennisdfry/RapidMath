@@ -20,16 +20,14 @@
             Multiplication
         </button>
     </div>
-    <!-- <div class="operator-class-container ">
+    <div class="operator-class-container ">
         <button class="startButton" (click)="startGame('/')" mat-raised-button matTooltip="By default, I delay"
             aria-label="Button that displays a tooltip that has custom delays through a default config">
             Division
         </button>
-        <div class="level-container" *ngFor="let point of nextPointArrayDivision">{{point}}
-        </div>
-    </div> -->
+    </div>
     <div class="operator-class-container">
-        <button class="startButton" [routerLink]="['/mainpage']" mat-raised-button matTooltip="By default, I delay"
+        <button *ngIf="startbutton" class="startButton" [routerLink]="['/mainpage']" mat-raised-button matTooltip="By default, I delay"
             aria-label="Button that displays a tooltip that has custom delays through a default config">back</button>
     </div>
     <div *ngIf="playGame">
@@ -51,6 +49,10 @@
         </div>
         <div *ngIf="showLevelBooleanMulti" class="level-container-addition">
             <div *ngIf="showLevelBooleanMulti" class="level-container">Level {{nextPointArrayMulti.length+1}}</div>
+        </div>
+         <div *ngIf="showLevelBooleanDivision" class="level-container-addition">
+            <div *ngIf="showLevelBooleanDivision" class="level-container">Level {{nextPointArrayDivision.length+1}}
+            </div>
         </div>
         <div class="bar-container">
             <div class="bar" [style.width.%]="barWidth"></div>

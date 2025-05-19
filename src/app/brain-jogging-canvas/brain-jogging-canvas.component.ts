@@ -39,28 +39,6 @@ export class BrainJoggingCanvasComponent implements AfterViewInit, OnDestroy {
   private colorIntervalId: any;
   private gameTimeoutId: any;
 
-  // ngAfterViewInit(): void {
-  //   const canvas = this.canvasRef.nativeElement;
-  //   this.ctx = canvas.getContext('2d')!;
-  //   canvas.addEventListener('click', this.handleClick.bind(this));
-
-  //   this.generateRandomPoints();
-  //   this.startTime = Date.now();
-  //   this.draw();
-
-  //   this.colorIntervalId = setInterval(() => {
-  //     this.colorToggle = !this.colorToggle;
-  //   }, this.colorChangeInterval);
-
-  //   setTimeout(() => {
-  //     this.rearrangeRemainingPoints();
-  //   }, 5000);
-
-  //   this.gameTimeoutId = setTimeout(() => {
-  //     this.endGame();
-  //   }, this.gameDuration);
-  // }
-
    ngAfterViewInit(): void {
     const canvas = this.canvasRef.nativeElement;
     this.ctx = canvas.getContext('2d')!;
@@ -157,7 +135,6 @@ export class BrainJoggingCanvasComponent implements AfterViewInit, OnDestroy {
       while (!validPoint && attempts < 500) {
         const newX = Math.random() * 750 + 20;
         const newY = Math.random() * 550 + 20;
-
         let overlaps = false;
         for (const placed of this.points) {
           const dist = Math.hypot(placed.x - newX, placed.y - newY);

@@ -44,20 +44,35 @@ export class MathematicsComponent {
   showLevelBooleanAddition: boolean = false;
   showLevelBooleanSubtraction: boolean = false;
   showLevelBooleanMulti: boolean = false;
+  showLevelBooleanDivision: boolean = false;
   barWidth = 100;
 
   constructor() { };
 
   InitOperator() {
     for (let index = 1; index < 11; index++) {
-      this.operatorOne = this.mathRandomizer();
-      this.operatorTwo = this.mathRandomizer();
+      if (this.operator === '/') {
+        console.log('erkannt');
+        this.operatorTwo = this.mathRandomizer();
+        while (this.operatorTwo === 0) {
+          this.operatorTwo = this.mathRandomizer();
+        }
+        const multiplier = this.mathRandomizer();
+        this.operatorOne = this.operatorTwo * multiplier;
+
+      } else {
+        this.operatorOne = this.mathRandomizer();
+        this.operatorTwo = this.mathRandomizer();
+      }
       this.fillOperationArray();
     }
   }
 
   InitOperation() {
     this.operation = eval(`${this.arethmeticNumberOne[this.operationIndex]} ${this.operator} ${this.arethmeticNumberTwo[this.operationIndex]}`);
+    if (this.operator === '/') {
+      this.operation = Math.floor(this.operation); // Optional: Nur ganzzahlige Ergebnisse erlauben
+    }
     this.randowResultsArray.push(this.operation);
   }
 
@@ -86,7 +101,7 @@ export class MathematicsComponent {
     this.InitOperation();
     this.createRandomResults();
     this.playGame = true;
-    this.startCountdownBar(10);
+    this.startCountdownBar(30);
     console.log(this.nextPointArrayAddition)
     console.log(this.nextPointArrayMulti)
     console.log(this.nextPointArraySubtraction)
@@ -124,7 +139,7 @@ export class MathematicsComponent {
     }
   }
 
-  async checkOperator(): Promise<void>{
+  async checkOperator(): Promise<void> {
     if (this.operator === '+') {
       this.showLevelBooleanAddition = true;
       setTimeout(() => {
@@ -139,7 +154,7 @@ export class MathematicsComponent {
       this.showLevelBooleanSubtraction = true;
       setTimeout(() => {
         this.showLevelBooleanSubtraction = false;
-      }, 1000);
+      }, 1200);
       if (this.nextPointArraySubtraction.length < 1) {
         return;
       } else {
@@ -149,13 +164,17 @@ export class MathematicsComponent {
       this.showLevelBooleanMulti = true;
       setTimeout(() => {
         this.showLevelBooleanMulti = false;
-      }, 3000);
+      }, 1200);
       if (this.nextPointArrayMulti.length < 1) {
         return;
       } else {
         this.increaseArethmetikNumber(this.nextPointArrayMulti);
       }
     } else if (this.operator === '/') {
+      (this.showLevelBooleanDivision = true)
+      setTimeout(() => {
+        this.showLevelBooleanDivision = false;
+      }, 1200);
       if (this.nextPointArrayDivision.length < 1) {
         return;
       } else {
@@ -176,7 +195,7 @@ export class MathematicsComponent {
     this.randowResultsArray = [];
     this.InitOperation();
     this.createRandomResults();
-    this.startCountdownBar(10);
+    // this.startCountdownBar(10);
   }
 
   finish() {

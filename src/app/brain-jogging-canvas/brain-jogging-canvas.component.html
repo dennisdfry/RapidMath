@@ -2,5 +2,6 @@
 <div class="progress-container">
   <div class="progress-bar" [style.width.%]="100 - progressPercent"></div>
 </div>
+<div *ngFor="let point of clickedPoints; ">{{point}}</div>
 
 <div *ngIf="endGameSequenz">win</div>

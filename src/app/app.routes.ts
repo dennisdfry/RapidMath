@@ -4,6 +4,7 @@ import { MainpageComponent } from './mainpage/mainpage.component';
 import { BrainJoggingCanvasComponent } from './brain-jogging-canvas/brain-jogging-canvas.component';
 
 export const routes: Routes = [
+    {path:'', component: MainpageComponent},
     {path:'mainpage', component: MainpageComponent},
     {path:'mathematics', component: MathematicsComponent},
     {path:'visuality', component: BrainJoggingCanvasComponent}
