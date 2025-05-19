@@ -93,10 +93,11 @@ export class MathematicsComponent {
   async startGame(operatorHtml: string) {
     this.min = 1;
     this.max = 11;
+    this.operator = operatorHtml;
     this.InitOperator();
     this.startbutton = false;
     this.operationIndex = 0;
-    this.operator = operatorHtml;
+
     await this.checkOperator();
     this.InitOperation();
     this.createRandomResults();
