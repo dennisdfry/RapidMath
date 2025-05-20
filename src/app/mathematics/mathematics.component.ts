@@ -46,6 +46,8 @@ export class MathematicsComponent {
   showLevelBooleanMulti: boolean = false;
   showLevelBooleanDivision: boolean = false;
   barWidth = 100;
+  startCountDown: number = 0;
+  countDownInterval: any;
 
   constructor() { };
 
@@ -108,17 +110,23 @@ export class MathematicsComponent {
     console.log(this.nextPointArraySubtraction)
     console.log(this.nextPointArrayDivision)
   }
-
+  
   startCountdownBar(seconds: number) {
-    const start = Date.now();
-    const interval = setInterval(() => {
-      const elapsed = Math.floor((Date.now() - start) / 1000);
+    this.startCountDown = Date.now();
+    this.countDownInterval = setInterval(() => {
+      const elapsed = Math.floor((Date.now() - this.startCountDown) / 1000);
       const remaining = Math.max(0, seconds - elapsed);
       this.barWidth = (remaining / seconds) * 100;
       if (remaining <= 0) {
-        clearInterval(interval);
+        clearInterval(this.countDownInterval);
+        this.resetCountdownVariables();
       }
     }, 1000);
+  }
+
+  resetCountdownVariables() {
+    this.startCountDown = 0;
+    this.countDownInterval = null;
   }
 
 
@@ -172,7 +180,7 @@ export class MathematicsComponent {
         this.increaseArethmetikNumber(this.nextPointArrayMulti);
       }
     } else if (this.operator === '/') {
-      (this.showLevelBooleanDivision = true)
+      this.showLevelBooleanDivision = true;
       setTimeout(() => {
         this.showLevelBooleanDivision = false;
       }, 1200);
@@ -182,7 +190,6 @@ export class MathematicsComponent {
         this.increaseArethmetikNumber(this.nextPointArrayDivision);
       }
     }
-
   }
 
   increaseArethmetikNumber(array: number[]) {
@@ -196,7 +203,6 @@ export class MathematicsComponent {
     this.randowResultsArray = [];
     this.InitOperation();
     this.createRandomResults();
-    // this.startCountdownBar(10);
   }
 
   finish() {
@@ -206,7 +212,6 @@ export class MathematicsComponent {
     console.log(this.operator)
     this.cleararethmeticArrays();
     this.nextLevel();
-
   }
 
   nextLevel() {
