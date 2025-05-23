@@ -1,0 +1,29 @@
+<div class="color-focus-container" *ngIf="!gameStarted && !gameOver">
+  <h2>🎨 Farb-Fokus</h2>
+  <p>
+    In diesem Spiel musst du schnell reagieren – aber achte genau auf die Farbe, nicht auf den Text!<br /><br />
+    Dir wird ein Farbnamen angezeigt, aber die <strong>Schriftfarbe</strong> stimmt oft <strong>nicht</strong> mit dem Wort überein.<br />
+    Deine Aufgabe: Klicke auf den Button mit der <strong>Farbe der Schrift</strong>, nicht auf das geschriebene Wort.<br /><br />
+    Du bekommst einen Punkt für jede richtige Auswahl. Bei einem Fehler ist das Spiel vorbei.
+  </p>
+  <button class="start-button" (click)="startGame()">▶ Spiel starten</button>
+</div>
+
+<div class="color-focus-container" *ngIf="gameStarted">
+  <h2>🎨 Farb-Fokus</h2>
+  <p>Punkte: {{ score }}</p>
+
+  <div class="word" [style.color]="displayedColor">{{ displayedWord }}</div>
+
+  <div class="buttons">
+    <button *ngFor="let color of htmlColors" (click)="handleAnswer(color)">
+      {{ color | titlecase }}
+    </button>
+  </div>
+</div>
+
+<div class="color-focus-container" *ngIf="gameOver && !gameStarted">
+  <h2>🛑 Spiel beendet!</h2>
+  <p>Dein Punktestand: {{ score }}</p>
+  <button (click)="restart()">🔁 Nochmal spielen</button>
+</div>

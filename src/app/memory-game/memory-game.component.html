@@ -1,0 +1,20 @@
+<div class="game-container">
+  <h2>Kartenmerker-Spiel</h2>
+  <p>Punkte: {{ score }}</p>
+
+  <div class="grid">
+    <div
+      class="card"
+      *ngFor="let card of cards"
+      [class.flipped]="card.flipped || card.matched"
+      (click)="flipCard(card)"
+    >
+      <div class="card-inner">
+        <div class="card-front">?</div>
+        <div class="card-back">{{ card.image }}</div>
+      </div>
+    </div>
+  </div>
+
+  <button (click)="resetGame()">Neustarten</button>
+</div>

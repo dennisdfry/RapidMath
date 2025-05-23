@@ -1,0 +1,44 @@
+.reaction-container {
+  text-align: center;
+  font-family: sans-serif;
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(5, 60px);
+    grid-gap: 10px;
+    justify-content: center;
+    margin-top: 20px;
+  }
+
+  .cell {
+    width: 60px;
+    height: 60px;
+    background: #ccc;
+    border-radius: 8px;
+    transition: background 0.2s;
+    cursor: pointer;
+
+    &.active {
+      background: #4caf50;
+    }
+
+    &:hover {
+      background: #aaa;
+    }
+  }
+}
+
+.start-button {
+  padding: 12px 24px;
+  font-size: 18px;
+  background-color: #4caf50;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: #45a049;
+  }
+}

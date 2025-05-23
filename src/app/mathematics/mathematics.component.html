@@ -1,33 +1,38 @@
 <section>
-    <div class="operator-class-container">
-        <button *ngIf="startbutton" class="startButton" (click)="startGame('+')" mat-raised-button
+    <div class="mathe-wrap">
+        <div class="operator-class-container">
+            <button *ngIf="startbutton" class="startButton" (click)="startGame('+')" mat-raised-button
+                matTooltip="By default, I delay"
+                aria-label="Button that displays a tooltip that has custom delays through a default config">
+               +
+            </button>
+        </div>
+        <div class="operator-class-container">
+            <button *ngIf="startbutton" class="startButton" (click)="startGame('-')" mat-raised-button
+                matTooltip="By default, I delay"
+                aria-label="Button that displays a tooltip that has custom delays through a default config">
+                -
+            </button>
+        </div>
+        <div class="operator-class-container">
+            <button *ngIf="startbutton" class="startButton" (click)="startGame('*')" mat-raised-button
+                matTooltip="By default, I delay"
+                aria-label="Button that displays a tooltip that has custom delays through a default config">
+                x
+            </button>
+        </div>
+        <div class="operator-class-container ">
+            <button *ngIf="startbutton" class="startButton" (click)="startGame('/')" mat-raised-button
+                matTooltip="By default, I delay"
+                aria-label="Button that displays a tooltip that has custom delays through a default config">
+                \
+            </button>
+        </div>
+
+    </div>
+    <div class="operator-class-container route-to_mainpage">
+        <button *ngIf="startbutton" class="startButton" [routerLink]="['/mainpage']" mat-raised-button
             matTooltip="By default, I delay"
-            aria-label="Button that displays a tooltip that has custom delays through a default config">
-            Addition
-        </button>
-    </div>
-    <div class="operator-class-container">
-        <button *ngIf="startbutton" class="startButton" (click)="startGame('-')" mat-raised-button
-            matTooltip="By default, I delay"
-            aria-label="Button that displays a tooltip that has custom delays through a default config">
-            Subtraction
-        </button>
-    </div>
-    <div class="operator-class-container">
-        <button *ngIf="startbutton" class="startButton" (click)="startGame('*')" mat-raised-button
-            matTooltip="By default, I delay"
-            aria-label="Button that displays a tooltip that has custom delays through a default config">
-            Multiplication
-        </button>
-    </div>
-    <div class="operator-class-container ">
-        <button *ngIf="startbutton" class="startButton" (click)="startGame('/')" mat-raised-button matTooltip="By default, I delay"
-            aria-label="Button that displays a tooltip that has custom delays through a default config">
-            Division
-        </button>
-    </div>
-    <div class="operator-class-container">
-        <button *ngIf="startbutton" class="startButton" [routerLink]="['/mainpage']" mat-raised-button matTooltip="By default, I delay"
             aria-label="Button that displays a tooltip that has custom delays through a default config">back</button>
     </div>
     <div *ngIf="playGame">
@@ -50,7 +55,7 @@
         <div *ngIf="showLevelBooleanMulti" class="level-container-addition">
             <div *ngIf="showLevelBooleanMulti" class="level-container">Level {{nextPointArrayMulti.length+1}}</div>
         </div>
-         <div *ngIf="showLevelBooleanDivision" class="level-container-addition">
+        <div *ngIf="showLevelBooleanDivision" class="level-container-addition">
             <div *ngIf="showLevelBooleanDivision" class="level-container">Level {{nextPointArrayDivision.length+1}}
             </div>
         </div>

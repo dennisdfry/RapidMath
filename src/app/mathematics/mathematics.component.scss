@@ -9,13 +9,30 @@ section {
     flex-direction: column;
 }
 
+.mathe-wrap {
+    width:720px;
+    height:400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
 .operator-class-container {
     display: flex;
 }
 
+.route-to_mainpage{
+    position: absolute;
+    bottom: 0;
+    width: 100px !important;
+    height: 100px !important;
+}
+
 .mat-mdc-raised-button:not(:disabled) {
-    width: 350px;
-    height: 80px;
+    width: 200px;
+    height:200px;
     font-size: 48px;
     margin: 20px;
     border: 1px solid #3DCFB6;
@@ -92,24 +109,17 @@ section {
 
 }
 
-// .level-container-addition {
-//     opacity: 0;
-//     transition: opacity 0.5s;
-// }
-
-// .level-container-addition.visible {
-//     opacity: 1;
-// }
-
 .bar-container {
     width: 100%;
     background-color: transparent;
     height: 20px;
-  }
-  .bar {
+}
+
+.bar {
     background-color: #3DCFB6;
     height: 100%;
-  }
+}
+
 .d-none {
     display: none;
 }
