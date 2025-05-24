@@ -1,8 +1,14 @@
+
+
 <div class="register-container">
+  <div class="teaser-container">
+    <img src="../../assets/img/teaser-logo.png" alt="">
+    <h1>Smart Focus</h1>
+  </div>
   <div class="register-box">
     <h2>Registrieren</h2>
 
-    <button (click)="signUpWithGoogle()" class="google-button">
+    <button [routerLink]="['/mainpage']" class="google-button">
       Mit Google registrieren
     </button>
 

@@ -4,7 +4,19 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
   font-family: Arial, sans-serif;
+}
+
+.teaser-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  color:#585b51;
+  >h1{
+    font-size: 64px;
+  }
 }
 
 .register-box {

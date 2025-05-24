@@ -8,19 +8,19 @@ section {
 }
 
 .mat-mdc-raised-button:not(:disabled) {
-    width: 350px;
-    height: 80px;
-    font-size: 48px;
-    margin: 20px;
-    border: 1px solid #3DCFB6;
-    border-radius: 30px;
-    color: aliceblue;
-    background:linear-gradient(to right, #182221, #0E3A32);
-    transition: transform 0.3s ease;
+     background-color: #dad4c9;
+  color: #5a5c52;
+  border: none;
+  width:280px;
+  margin:8px;
+  padding: 16px;
+  font-size: 32px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s;
 
     &:hover {
-        color: rgb(211, 246, 246);
-        background-color: aliceblue;
+     background-color: #c6c0b6;
         transform: scale(1.1); 
     }
 }
