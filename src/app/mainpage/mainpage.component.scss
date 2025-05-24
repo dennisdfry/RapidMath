@@ -7,21 +7,40 @@ section {
     flex-direction: column;
 }
 
+.teaser-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    color: #585b51;
+
+    >img {
+        width: 150px;
+    }
+
+    >h1 {
+        font-size: 48px;
+        margin-block-start: 0;
+        margin-block-end: 0;
+        margin-bottom: 16px;
+    }
+}
+
 .mat-mdc-raised-button:not(:disabled) {
-     background-color: #dad4c9;
-  color: #5a5c52;
-  border: none;
-  width:280px;
-  margin:8px;
-  padding: 16px;
-  font-size: 32px;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background-color 0.3s;
+    background-color: #dad4c9;
+    color: #5a5c52;
+    border: none;
+    width: 280px;
+    margin: 8px;
+    padding: 16px;
+    font-size: 32px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s;
 
     &:hover {
-     background-color: #c6c0b6;
-        transform: scale(1.1); 
+        background-color: #c6c0b6;
+        transform: scale(1.1);
     }
 }
 
