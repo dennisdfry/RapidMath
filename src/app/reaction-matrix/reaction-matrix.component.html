@@ -1,25 +1,23 @@
-<div class="reaction-container" *ngIf="!gameStarted">
-  <h2>🧠 Reaktions-Matrix</h2>
-  <p>
-    In diesem Spiel trainierst du deine <strong>Reaktionsgeschwindigkeit</strong> und <strong>visuelle Aufmerksamkeit</strong>!<br /><br />
-    Auf einem 5x5-Feld leuchtet in zufälligen Abständen ein Feld <span style="color: #4caf50"><strong>grün</strong></span> auf. Klicke es so schnell wie möglich an!<br />
-    Für jeden Treffer bekommst du einen Punkt. Klickst du daneben oder bist zu langsam, verlierst du ein Leben.<br />
-    Nach drei Fehlern ist das Spiel vorbei. Wie viele Punkte schaffst du?
-  </p>
-
-  <button class="start-button" (click)="startGame()">▶ Spiel starten</button>
-</div>
-
-<div class="reaction-container" *ngIf="gameStarted">
-  <h2>🧠 Reaktions-Matrix</h2>
+<section>
+  <div class="reaction-container" *ngIf="!gameStarted">
+    <h2>🧠 Reaktion-Matrix</h2>
+    <p>
+      In diesem Spiel trainierst du deine <strong>Reaktionsgeschwindigkeit</strong> und <strong>visuelle
+        Aufmerksamkeit</strong>!<br /><br />
+      Auf einem 5x5-Feld leuchtet in zufälligen Abständen ein Feld <span
+        style="color: #4caf50"><strong>grün</strong></span> auf. Klicke es so schnell wie möglich an!<br />
+      Für jeden Treffer bekommst du einen Punkt. Klickst du daneben oder bist zu langsam, verlierst du ein Leben.<br />
+      Nach drei Fehlern ist das Spiel vorbei. Wie viele Punkte schaffst du?
+    </p>
+    <button class="start-button" (click)="startGame()">▶ Spiel starten</button>
+  </div>
+  <div class="reaction-container" *ngIf="gameStarted">
+  <h2>🧠 Reaktion-Matrix</h2>
   <p>Punkte: {{ score }} | Leben: {{ lives }}</p>
 
   <div class="grid">
-    <div
-      class="cell"
-      *ngFor="let cell of grid"
-      [class.active]="cell.isActive"
-      (click)="handleClick(cell)"
-    ></div>
+    <div class="cell" *ngFor="let cell of grid" [class.active]="cell.isActive" (click)="handleClick(cell)"></div>
   </div>
 </div>
+</section>
+

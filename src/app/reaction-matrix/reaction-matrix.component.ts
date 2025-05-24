@@ -43,7 +43,7 @@ export class ReactionMatrixComponent implements OnInit, OnDestroy {
     this.initGrid();
     this.intervalId = setInterval(() => {
       this.activateRandomCell();
-    }, 1500);
+    }, 15000);
   }
 
   activateRandomCell(): void {
