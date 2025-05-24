@@ -5,9 +5,10 @@ import { BrainJoggingCanvasComponent } from './brain-jogging-canvas/brain-joggin
 import { MemoryGameComponent } from './memory-game/memory-game.component';
 import { ReactionMatrixComponent } from './reaction-matrix/reaction-matrix.component';
 import { ColorFocusComponent } from './color-focus/color-focus.component';
+import { AuthComponent } from './auth/auth.component';
 
 export const routes: Routes = [
-    {path:'', component: MainpageComponent},
+    {path:'', component: AuthComponent},
     {path:'mainpage', component: MainpageComponent},
     {path:'mathematics', component: MathematicsComponent},
     {path:'visuality', component: BrainJoggingCanvasComponent},
