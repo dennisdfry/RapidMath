@@ -1,6 +1,22 @@
+section{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height:100vh;
+}
+
 .color-focus-container {
+   display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
   text-align: center;
   font-family: sans-serif;
+  background-color: white;
+  width:300px;
+  height:500px;
+  padding:16px;
+  border-radius: 10px;
 
   .word {
     font-size: 48px;
@@ -15,7 +31,8 @@
     gap: 15px;
 
     button {
-      padding: 12px 24px;
+      width: 100px;
+      padding:16px;
       font-size: 18px;
       border: none;
       border-radius: 8px;
