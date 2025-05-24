@@ -1,10 +1,16 @@
+section{
+  height:100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 canvas {
     display: block;
     margin: 20px auto;
-    background-color: #f0f0f0;
     border-radius: 30px;
-    background:linear-gradient(to right, #182221, #0E3A32);
-    border: 1px solid #3DCFB6;
+    background: white;
+   
   }
 
   .progress-bar{

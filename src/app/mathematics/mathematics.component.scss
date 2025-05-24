@@ -10,8 +10,8 @@ section {
 }
 
 .mathe-wrap {
-    width:720px;
-    height:400px;
+    width: 500px;
+    height: 400px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -23,27 +23,26 @@ section {
     display: flex;
 }
 
-.route-to_mainpage{
+.route-to_mainpage {
     position: absolute;
     bottom: 0;
-    width: 100px !important;
-    height: 100px !important;
 }
 
 .mat-mdc-raised-button:not(:disabled) {
-    width: 200px;
-    height:200px;
-    font-size: 48px;
-    margin: 20px;
-    border: 1px solid #3DCFB6;
-    border-radius: 30px;
-    color: aliceblue;
-    background: linear-gradient(to right, #182221, #0E3A32);
-    transition: transform 0.3s ease;
+    background-color: #dad4c9;
+    color: #5a5c52;
+    border: none;
+    width: 150px;
+    height: 150px;
+    margin: 8px;
+    padding: 16px;
+    font-size: 32px;
+    border-radius: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
 
     &:hover {
-        color: rgb(211, 246, 246);
-        background-color: aliceblue;
+        background-color: #c6c0b6;
         transform: scale(1.1);
     }
 }
@@ -55,8 +54,7 @@ section {
     justify-content: center;
     align-items: center;
     font-size: 32px;
-    color: #3DCFB6;
-    color: #3DCFB6;
+    color: #5a5c52;
 }
 
 .random-results-container {
@@ -71,14 +69,15 @@ section {
     height: 80px;
     width: 80px;
     margin: 16px;
-    border: 1px solid #3DCFB6;
+    background-color: #dad4c9;
     border-radius: 30px;
-    color: #3DCFB6;
+    color: #5a5c52;
     transition: transform 0.3s ease;
 
     &:hover {
         transform: scale(1.1);
         cursor: pointer;
+        background-color: #c6c0b6;
     }
 }
 
@@ -88,11 +87,10 @@ section {
     display: flex;
     justify-content: center;
     align-items: center;
-    color: #3DCFB6;
+    background-color: #dad4c9;
     font-size: 32px;
-    border: 1px solid #3DCFB6;
+    color: #5a5c52;
     border-radius: 30px;
-    background: linear-gradient(to right, #182221, #0E3A32);
 }
 
 .level-container-addition {
@@ -105,7 +103,7 @@ section {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: rgba(0, 0, 0, 0.5);
+   background-color: #c6c0b6;
 
 }
 
@@ -116,8 +114,9 @@ section {
 }
 
 .bar {
-    background-color: #3DCFB6;
+    background-color: #dad4c9;
     height: 100%;
+    border-radius: 8px;
 }
 
 .d-none {

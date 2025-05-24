@@ -168,7 +168,7 @@ export class BrainJoggingCanvasComponent implements AfterViewInit, OnDestroy {
     this.ctx.textBaseline = 'middle';
 
     this.points.forEach(point => {
-      this.ctx.fillStyle = this.colorToggle ? '#FF5733' : '#3DCFB6';
+      this.ctx.fillStyle = this.colorToggle ? '#5a5c52' : '#c6c0b6';
       this.ctx.beginPath();
       this.ctx.arc(point.x, point.y, point.radius, 0, Math.PI * 2);
       this.ctx.fill();
@@ -184,7 +184,7 @@ export class BrainJoggingCanvasComponent implements AfterViewInit, OnDestroy {
 
     this.ctx.fillStyle = '#ccc';
     this.ctx.fillRect(0, 580, 800, 20);
-    this.ctx.fillStyle = '#4CAF50';
+    this.ctx.fillStyle = '#5a5c52';
     this.ctx.fillRect(0, 580, width, 20);
   }
 
