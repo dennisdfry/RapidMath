@@ -9,7 +9,7 @@ import {
 } from '@angular/material/tooltip';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
-
+type Operator = '+' | '-' | '*' | '/';
 
 @Component({
   selector: 'app-mathematics',
@@ -36,8 +36,8 @@ export class MathematicsComponent {
   startbutton: boolean = true;
   operatorOne: number = 0;
   operatorTwo: number = 0;
-  operation: any = '';
-  operator: string = '+';
+  operation: number = 0;
+  operator: Operator = '+';
   arrayName: string = '';
   exchangeResult: number = 0;
   division: boolean = false;
@@ -48,6 +48,12 @@ export class MathematicsComponent {
   barWidth = 100;
   startCountDown: number = 0;
   countDownInterval: any;
+    levelSettings: Record<Operator, { min: number; max: number }> = {
+    '+': { min: 1, max: 11 },
+    '-': { min: 1, max: 11 },
+    '*': { min: 1, max: 11 },
+    '/': { min: 1, max: 11 },
+  };
 
   constructor() { };
 
@@ -71,10 +77,26 @@ export class MathematicsComponent {
   }
 
   InitOperation() {
-    this.operation = eval(`${this.arethmeticNumberOne[this.operationIndex]} ${this.operator} ${this.arethmeticNumberTwo[this.operationIndex]}`);
-    if (this.operator === '/') {
-      this.operation = Math.floor(this.operation); // Optional: Nur ganzzahlige Ergebnisse erlauben
+    const num1 = this.arethmeticNumberOne[this.operationIndex];
+    const num2 = this.arethmeticNumberTwo[this.operationIndex];
+
+    switch (this.operator) {
+      case '+':
+        this.operation = num1 + num2;
+        break;
+      case '-':
+        this.operation = num1 - num2;
+        break;
+      case '*':
+        this.operation = num1 * num2;
+        break;
+      case '/':
+        this.operation = Math.floor(num1 / num2); // Ganzzahlige Division
+        break;
+      default:
+        throw new Error('Ungültiger Operator');
     }
+
     this.randowResultsArray.push(this.operation);
   }
 
@@ -92,15 +114,15 @@ export class MathematicsComponent {
     return Math.floor(Math.random() * (this.max - this.min + 1)) + this.min;
   }
 
-  async startGame(operatorHtml: string) {
-    this.min = 1;
-    this.max = 11;
+  async startGame(operatorHtml: Operator) {
+    this.min = this.levelSettings[this.operator].min;
+    this.max = this.levelSettings[this.operator].max;
     this.operator = operatorHtml;
+    console.log(this.operator);
+    await this.checkOperator();
     this.InitOperator();
     this.startbutton = false;
     this.operationIndex = 0;
-
-    await this.checkOperator();
     this.InitOperation();
     this.createRandomResults();
     this.playGame = true;
@@ -110,7 +132,7 @@ export class MathematicsComponent {
     console.log(this.nextPointArraySubtraction)
     console.log(this.nextPointArrayDivision)
   }
-  
+
   startCountdownBar(seconds: number) {
     this.startCountDown = Date.now();
     this.countDownInterval = setInterval(() => {
@@ -151,6 +173,8 @@ export class MathematicsComponent {
   async checkOperator(): Promise<void> {
     if (this.operator === '+') {
       this.showLevelBooleanAddition = true;
+      // this.min = this.min * this.nextPointArrayAddition.length;
+      // this.max = this.max * this.nextPointArrayAddition.length;
       setTimeout(() => {
         this.showLevelBooleanAddition = false;
       }, 1200);
@@ -193,8 +217,9 @@ export class MathematicsComponent {
   }
 
   increaseArethmetikNumber(array: number[]) {
-    this.min = this.min * (array.length + 1);
-    this.max = this.max * (array.length + 1);
+    const level = array.length + 1;
+    this.levelSettings[this.operator].min = 1 * level;
+    this.levelSettings[this.operator].max = 11 * level;
   }
 
   nextround() {
