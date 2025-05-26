@@ -1,4 +1,3 @@
-
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, OnDestroy, AfterViewInit, ViewChild } from '@angular/core';
 import { RouterModule } from '@angular/router';
@@ -8,6 +7,7 @@ interface Point {
   y: number;
   radius: number;
   numberOfPoint: number;
+  colorIndex: number;
 }
 
 @Component({
@@ -20,56 +20,119 @@ interface Point {
 export class BrainJoggingCanvasComponent implements AfterViewInit, OnDestroy {
   @ViewChild('brainCanvas', { static: false }) canvasRef!: ElementRef<HTMLCanvasElement>;
   private ctx!: CanvasRenderingContext2D;
+  private colors = ['#5a5c52', '#c6c0b6', '#b6845c', '#6c91bf'];
+
   points: Point[] = [];
   clickedPoints: Point[] = [];
   score: number = 0;
   firstPointRef: number = 0;
   endGameSequenz: boolean = false;
-  startMindClicker: boolean = true;
   secondPhaseStarted: boolean = false;
   progressPercent: number = 0;
-
+  currentLevel: number = 1;
+  showStartScreen: boolean = true;
+  hoveredPointIndex: number | null = null;
+  showCanvas: boolean = false;
+  CANVAS_WIDTH:number = 300;
+  CANVAS_HEIGHT:number = 500;
   private rearrangeIntervalId: any;
   private updateProgressId: any;
   private gameDuration = 30000; // 30 Sekunden
   private colorChangeInterval = 5000; // 5 Sekunden
   private startTime = 0;
   private animationFrameId: number = 0;
-  private colorToggle = false;
-  private colorIntervalId: any;
   private gameTimeoutId: any;
 
-   ngAfterViewInit(): void {
-    const canvas = this.canvasRef.nativeElement;
-    this.ctx = canvas.getContext('2d')!;
-    canvas.addEventListener('click', this.handleClick.bind(this));
+  private canvasWidth = 300;
+  private canvasHeight = 500;
 
+  startGame(): void {
+    if (!this.ctx) {
+      const canvas = this.canvasRef?.nativeElement;
+      if (!canvas) {
+        console.error('Canvas nicht gefunden.');
+        return;
+      }
+      this.ctx = canvas.getContext('2d')!;
+    }
+
+    this.showStartScreen = false;
+    this.showCanvas = true;
+    this.score = 0;
+    this.firstPointRef = 0;
+    this.endGameSequenz = false;
+    this.secondPhaseStarted = false;
     this.generateRandomPoints();
     this.startTime = Date.now();
     this.draw();
 
-    // Punkte alle 5 Sekunden neu anordnen
     this.rearrangeIntervalId = setInterval(() => {
       this.rearrangeRemainingPoints();
-      this.colorToggle = !this.colorToggle;
     }, this.colorChangeInterval);
 
-    // Spiel endet nach 30 Sekunden
     this.gameTimeoutId = setTimeout(() => {
       this.endGame();
     }, this.gameDuration);
 
-    // Fortschritt regelmäßig aktualisieren
     this.updateProgressId = setInterval(() => {
       const elapsed = Date.now() - this.startTime;
       this.progressPercent = Math.min((elapsed / this.gameDuration) * 100, 100);
     }, 100);
   }
 
-  ngOnDestroy(): void {
-      if (typeof cancelAnimationFrame !== 'undefined') {
-    cancelAnimationFrame(this.animationFrameId);
+  ngAfterViewInit(): void {
+    this.showCanvas = true;
+    const canvas = this.canvasRef?.nativeElement;
+    if (!canvas) {
+      console.error('Canvas nicht gefunden.');
+      return;
+    }
+    this.ctx = canvas.getContext('2d')!;
+    canvas.addEventListener('click', this.handleClick.bind(this));
+    canvas.addEventListener('mousemove', this.handleMouseMove.bind(this));
+
+    this.rearrangeIntervalId = setInterval(() => {
+      this.rearrangeRemainingPoints();
+    }, this.colorChangeInterval);
+
+    this.gameTimeoutId = setTimeout(() => {
+      this.endGame();
+    }, this.gameDuration);
+
+    this.updateProgressId = setInterval(() => {
+      const elapsed = Date.now() - this.startTime;
+      this.progressPercent = Math.min((elapsed / this.gameDuration) * 100, 100);
+    }, 100);
   }
+
+  handleMouseMove(event: MouseEvent): void {
+    const rect = this.canvasRef.nativeElement.getBoundingClientRect();
+    const mouseX = event.clientX - rect.left;
+    const mouseY = event.clientY - rect.top;
+
+    let found = false;
+    for (let i = 0; i < this.points.length; i++) {
+      const p = this.points[i];
+      const dist = Math.hypot(p.x - mouseX, p.y - mouseY);
+      if (dist <= p.radius) {
+        this.hoveredPointIndex = i;
+        found = true;
+        break;
+      }
+    }
+
+    if (!found) {
+      this.hoveredPointIndex = null;
+    }
+
+    const canvasEl = this.canvasRef.nativeElement;
+    canvasEl.style.cursor = found ? 'pointer' : 'default';
+  }
+
+  ngOnDestroy(): void {
+    if (typeof cancelAnimationFrame !== 'undefined') {
+      cancelAnimationFrame(this.animationFrameId);
+    }
     clearInterval(this.rearrangeIntervalId);
     clearInterval(this.updateProgressId);
     clearTimeout(this.gameTimeoutId);
@@ -98,14 +161,17 @@ export class BrainJoggingCanvasComponent implements AfterViewInit, OnDestroy {
     this.points = [];
     const minDistance = 2 * 20 + 10;
     let attempts = 0;
+
+    const colorCount = this.colors.length;
     for (let i = 0; i < 20; i++) {
       let validPoint = false;
       while (!validPoint && attempts < 500) {
         const newPoint = {
-          x: Math.random() * 750 + 20,
-          y: Math.random() * 550 + 20,
+          x: Math.random() * (this.CANVAS_WIDTH - 40) + 20,
+          y: Math.random() * (this.CANVAS_HEIGHT - 40) + 20,
           radius: 20,
-          numberOfPoint: i
+          numberOfPoint: i,
+          colorIndex: Math.floor(Math.random() * colorCount) // Farbe zufällig
         };
         let overlaps = false;
         for (const p of this.points) {
@@ -133,8 +199,8 @@ export class BrainJoggingCanvasComponent implements AfterViewInit, OnDestroy {
     for (const p of remainingPoints) {
       let validPoint = false;
       while (!validPoint && attempts < 500) {
-        const newX = Math.random() * 750 + 20;
-        const newY = Math.random() * 550 + 20;
+        const newX = Math.random() * (this.CANVAS_WIDTH - 40) + 20;
+        const newY = Math.random() * (this.CANVAS_HEIGHT - 40) + 20;
         let overlaps = false;
         for (const placed of this.points) {
           const dist = Math.hypot(placed.x - newX, placed.y - newY);
@@ -155,7 +221,6 @@ export class BrainJoggingCanvasComponent implements AfterViewInit, OnDestroy {
   draw = (): void => {
     this.clearCanvas();
     this.drawPoints();
-    this.drawTimeBar();
 
     if (!this.endGameSequenz) {
       this.animationFrameId = requestAnimationFrame(this.draw);
@@ -167,36 +232,35 @@ export class BrainJoggingCanvasComponent implements AfterViewInit, OnDestroy {
     this.ctx.textAlign = 'center';
     this.ctx.textBaseline = 'middle';
 
-    this.points.forEach(point => {
-      this.ctx.fillStyle = this.colorToggle ? '#5a5c52' : '#c6c0b6';
+    this.points.forEach((point, index) => {
+      const isHovered = index === this.hoveredPointIndex;
+      const radius = isHovered ? point.radius + 5 : point.radius;
+      const color = isHovered ? '#ff4444' : this.colors[point.colorIndex];
+
+      this.ctx.fillStyle = color;
       this.ctx.beginPath();
-      this.ctx.arc(point.x, point.y, point.radius, 0, Math.PI * 2);
+      this.ctx.arc(point.x, point.y, radius, 0, Math.PI * 2);
       this.ctx.fill();
+
       this.ctx.fillStyle = 'white';
       this.ctx.fillText((point.numberOfPoint + 1).toString(), point.x, point.y);
     });
   }
 
-  drawTimeBar(): void {
-    const elapsed = Date.now() - this.startTime;
-    const progress = Math.min(elapsed / this.gameDuration, 1);
-    const width = 800 * (1 - progress);
-
-    this.ctx.fillStyle = '#ccc';
-    this.ctx.fillRect(0, 580, 800, 20);
-    this.ctx.fillStyle = '#5a5c52';
-    this.ctx.fillRect(0, 580, width, 20);
-  }
-
   clearCanvas(): void {
-    this.ctx.clearRect(0, 0, 800, 600);
+    this.ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
   }
 
-    endGame(): void {
+  endGame(): void {
     this.endGameSequenz = true;
     cancelAnimationFrame(this.animationFrameId);
     clearInterval(this.rearrangeIntervalId);
     clearInterval(this.updateProgressId);
-    console.log('Spiel vorbei! Endpunktestand:', this.score);
+
+    if (this.firstPointRef === 20) {
+      this.currentLevel++;
+    }
+
+    this.showStartScreen = true;
   }
 }
