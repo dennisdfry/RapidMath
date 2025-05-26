@@ -55,6 +55,26 @@ export class MathematicsComponent {
     '/': { min: 1, max: 11 },
   };
 
+  levelBoundaries: Record<number, { min: number; max: number }> = {
+  1: { min: 1, max: 11 },
+  2: { min: 1, max: 50 },
+  3: { min: 1, max: 100 },
+  4: { min: 1, max: 200 },
+  5: { min: 1, max: 300 },
+  6: { min: 1, max: 400 },
+  7: { min: 1, max: 500 },
+  8: { min: 1, max: 600 },
+  9: { min: 1, max: 800 },
+  10: { min: 1, max: 1000 },
+};
+
+currentLevels: Record<Operator, number> = {
+  '+': 1,
+  '-': 1,
+  '*': 1,
+  '/': 1,
+};
+
   constructor() { };
 
   InitOperator() {
@@ -114,24 +134,46 @@ export class MathematicsComponent {
     return Math.floor(Math.random() * (this.max - this.min + 1)) + this.min;
   }
 
+  // async startGame(operatorHtml: Operator) {
+  //   this.min = this.levelSettings[this.operator].min;
+  //   this.max = this.levelSettings[this.operator].max;
+  //   console.log(this.min);
+  //       console.log(this.max);
+    
+
+  //   this.operator = operatorHtml;
+  //   console.log(this.operator);
+  //   await this.checkOperator();
+  //   this.InitOperator();
+  //   this.startbutton = false;
+  //   this.operationIndex = 0;
+  //   this.InitOperation();
+  //   this.createRandomResults();
+  //   this.playGame = true;
+  //   this.startCountdownBar(30);
+  //   console.log(this.nextPointArrayAddition)
+  //   console.log(this.nextPointArrayMulti)
+  //   console.log(this.nextPointArraySubtraction)
+  //   console.log(this.nextPointArrayDivision)
+  // }
+
   async startGame(operatorHtml: Operator) {
-    this.min = this.levelSettings[this.operator].min;
-    this.max = this.levelSettings[this.operator].max;
-    this.operator = operatorHtml;
-    console.log(this.operator);
-    await this.checkOperator();
-    this.InitOperator();
-    this.startbutton = false;
-    this.operationIndex = 0;
-    this.InitOperation();
-    this.createRandomResults();
-    this.playGame = true;
-    this.startCountdownBar(30);
-    console.log(this.nextPointArrayAddition)
-    console.log(this.nextPointArrayMulti)
-    console.log(this.nextPointArraySubtraction)
-    console.log(this.nextPointArrayDivision)
-  }
+  this.operator = operatorHtml;
+
+  const currentLevel = this.currentLevels[this.operator];
+  const bounds = this.levelBoundaries[currentLevel];
+  this.min = bounds.min;
+  this.max = bounds.max;
+
+  await this.checkOperator();
+  this.InitOperator();
+  this.startbutton = false;
+  this.operationIndex = 0;
+  this.InitOperation();
+  this.createRandomResults();
+  this.playGame = true;
+  this.startCountdownBar(30);
+}
 
   startCountdownBar(seconds: number) {
     this.startCountDown = Date.now();
@@ -152,16 +194,50 @@ export class MathematicsComponent {
   }
 
 
+  // createRandomResults() {
+  //   while (this.randowResultsArray.length < 4) {
+  //     const result = this.mathRandomizer();
+  //     if (!this.randowResultsArray.includes(result)) {
+  //       this.randowResultsArray.push(result);
+  //     }
+  //   }
+  //   console.log(this.randowResultsArray);
+  //   this.shuffleArray()
+  // }
+
   createRandomResults() {
-    while (this.randowResultsArray.length < 4) {
-      const result = this.mathRandomizer();
-      if (!this.randowResultsArray.includes(result)) {
-        this.randowResultsArray.push(result);
-      }
+  const correctResult = this.operation;
+  const variations = new Set<number>();
+  variations.add(correctResult);
+
+  let attempts = 0;
+  while (variations.size < 4 && attempts < 100) {
+    const variation = this.generateNearbyResult(correctResult);
+    if (!variations.has(variation)) {
+      variations.add(variation);
     }
-    console.log(this.randowResultsArray);
-    this.shuffleArray()
+    attempts++;
   }
+
+  // Fallback, falls es nicht genug Variationen gibt
+  while (variations.size < 4) {
+    variations.add(this.mathRandomizer());
+  }
+
+  this.randowResultsArray = Array.from(variations);
+  this.shuffleArray();
+}
+
+generateNearbyResult(correctResult: number): number {
+  const base = Math.abs(correctResult);
+  const variationRange = Math.max(3, Math.floor(base * 0.2)); // min. ±3
+  const offset = Math.floor(Math.random() * (variationRange * 2 + 1)) - variationRange;
+  let result = correctResult + offset;
+
+  if (result < 0) result = Math.abs(result) + 1; // vermeide negative Zahlen
+  return result;
+}
+
 
   shuffleArray() {
     for (let i = this.randowResultsArray.length - 1; i > 0; i--) {
@@ -172,16 +248,15 @@ export class MathematicsComponent {
 
   async checkOperator(): Promise<void> {
     if (this.operator === '+') {
+      console.log(this.nextPointArrayAddition.length)
       this.showLevelBooleanAddition = true;
-      // this.min = this.min * this.nextPointArrayAddition.length;
-      // this.max = this.max * this.nextPointArrayAddition.length;
       setTimeout(() => {
         this.showLevelBooleanAddition = false;
       }, 1200);
       if (this.nextPointArrayAddition.length < 1) {
         return;
       } else {
-        this.increaseArethmetikNumber(this.nextPointArrayAddition);
+        this.increaseArethmetikNumber('+');
       }
     } else if (this.operator === '-') {
       this.showLevelBooleanSubtraction = true;
@@ -191,7 +266,7 @@ export class MathematicsComponent {
       if (this.nextPointArraySubtraction.length < 1) {
         return;
       } else {
-        this.increaseArethmetikNumber(this.nextPointArraySubtraction);
+       this.increaseArethmetikNumber('-');
       }
     } else if (this.operator === '*') {
       this.showLevelBooleanMulti = true;
@@ -201,7 +276,7 @@ export class MathematicsComponent {
       if (this.nextPointArrayMulti.length < 1) {
         return;
       } else {
-        this.increaseArethmetikNumber(this.nextPointArrayMulti);
+        this.increaseArethmetikNumber('*');
       }
     } else if (this.operator === '/') {
       this.showLevelBooleanDivision = true;
@@ -211,16 +286,15 @@ export class MathematicsComponent {
       if (this.nextPointArrayDivision.length < 1) {
         return;
       } else {
-        this.increaseArethmetikNumber(this.nextPointArrayDivision);
+       this.increaseArethmetikNumber('/');
       }
     }
   }
 
-  increaseArethmetikNumber(array: number[]) {
-    const level = array.length + 1;
-    this.levelSettings[this.operator].min = 1 * level;
-    this.levelSettings[this.operator].max = 11 * level;
-  }
+  increaseArethmetikNumber(operator: Operator) {
+  const level = Math.min(this.currentLevels[operator] + 1, 10);
+  this.currentLevels[operator] = level; // level erhöhen
+}
 
   nextround() {
     this.result = null;
