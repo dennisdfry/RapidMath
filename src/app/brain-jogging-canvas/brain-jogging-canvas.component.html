@@ -1,12 +1,16 @@
 <section>
   <div class="canvas-wrapper">
-    <canvas *ngIf="showCanvas" #brainCanvas width="300" height="500"></canvas>
+    <!-- Canvas ist immer im DOM, aber evtl. per CSS unsichtbar -->
+    <canvas #brainCanvas width="300" height="500" [class.hidden]="showStartScreen"></canvas>
+
+    <!-- Overlay bleibt erhalten -->
     <div *ngIf="showStartScreen" class="start-screen-overlay">
       <h2>Willkommen zum MindClicker</h2>
       <p>Klicke die Zahlen in aufsteigender Reihenfolge. Die Punkte verändern regelmäßig ihre Position und Farbe.</p>
       <button (click)="startGame()">Spiel starten</button>
     </div>
   </div>
+
   <div class="progress-container" *ngIf="!showStartScreen">
     <div class="progress-bar" [style.width.%]="100 - progressPercent"></div>
     <div class="level-display">Level: {{ currentLevel }}</div>
