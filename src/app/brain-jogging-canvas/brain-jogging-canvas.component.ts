@@ -80,65 +80,6 @@ export class BrainJoggingCanvasComponent implements AfterViewInit, OnDestroy {
   }, 100);
 }
 
-  // startGame(): void {
-  //   if (!this.ctx) {
-  //     const canvas = this.canvasRef?.nativeElement;
-  //     if (!canvas) {
-  //       console.error('Canvas nicht gefunden.');
-  //       return;
-  //     }
-  //     this.ctx = canvas.getContext('2d')!;
-  //   }
-
-  //   this.showStartScreen = false;
-  //   this.showCanvas = true;
-  //   this.score = 0;
-  //   this.firstPointRef = 0;
-  //   this.endGameSequenz = false;
-  //   this.secondPhaseStarted = false;
-  //   this.generateRandomPoints();
-  //   this.startTime = Date.now();
-  //   this.draw();
-
-  //   this.rearrangeIntervalId = setInterval(() => {
-  //     this.rearrangeRemainingPoints();
-  //   }, this.colorChangeInterval);
-
-  //   this.gameTimeoutId = setTimeout(() => {
-  //     this.endGame();
-  //   }, this.gameDuration);
-
-  //   this.updateProgressId = setInterval(() => {
-  //     const elapsed = Date.now() - this.startTime;
-  //     this.progressPercent = Math.min((elapsed / this.gameDuration) * 100, 100);
-  //   }, 100);
-  // }
-
-  // ngAfterViewInit(): void {
-  //   this.showCanvas = true;
-  //   const canvas = this.canvasRef?.nativeElement;
-  //   if (!canvas) {
-  //     console.error('Canvas nicht gefunden.');
-  //     return;
-  //   }
-  //   this.ctx = canvas.getContext('2d')!;
-  //   canvas.addEventListener('click', this.handleClick.bind(this));
-  //   canvas.addEventListener('mousemove', this.handleMouseMove.bind(this));
-
-  //   this.rearrangeIntervalId = setInterval(() => {
-  //     this.rearrangeRemainingPoints();
-  //   }, this.colorChangeInterval);
-
-  //   this.gameTimeoutId = setTimeout(() => {
-  //     this.endGame();
-  //   }, this.gameDuration);
-
-  //   this.updateProgressId = setInterval(() => {
-  //     const elapsed = Date.now() - this.startTime;
-  //     this.progressPercent = Math.min((elapsed / this.gameDuration) * 100, 100);
-  //   }, 100);
-  // }
-
   ngAfterViewInit(): void {
   const canvas = this.canvasRef?.nativeElement;
   if (!canvas) {
