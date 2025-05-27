@@ -5,6 +5,7 @@
     In diesem Memory-Spiel kommt es auf Konzentration, Merkfähigkeit und Schnelligkeit an. Decke die Karten auf, finde die passenden Paare und knacke deinen Highscore – Runde für Runde wird es schwieriger!
     </p>
     <button class="start-button" (click)="startMindPairs()">▶ Spiel starten</button>
+    <button class="home-button" [routerLink]="['/mainpage']">🏠 Home</button>
   </div>
 </section>
 <section  *ngIf="!startGame">

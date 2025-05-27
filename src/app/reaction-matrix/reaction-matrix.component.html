@@ -7,6 +7,7 @@
       Treffer bringen Punkte, Fehler kosten Leben. Drei Fehler und das Spiel ist vorbei.
     </p>
     <button class="start-button" (click)="startGame()">▶ Spiel starten</button>
+    <button class="home-button" [routerLink]="['/mainpage']">🏠 Home</button>
   </div>
   <div class="reaction-container" *ngIf="gameStarted">
     <h2>🧠 Reaktion-Matrix</h2>

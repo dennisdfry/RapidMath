@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 interface Cell {
   id: number;
@@ -9,7 +10,7 @@ interface Cell {
 @Component({
   selector: 'app-reaction-matrix',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './reaction-matrix.component.html',
   styleUrl: './reaction-matrix.component.scss'
 })

@@ -5,6 +5,7 @@
       <h2>🎯MindClicker</h2>
       <p>Klicke die Zahlen in aufsteigender Reihenfolge. Die Punkte verändern regelmäßig ihre Position und Farbe.</p>
       <button class="start-button" (click)="startGame()">Spiel starten</button>
+      <button class="home-button" [routerLink]="['/mainpage']">🏠 Home</button>
     </div>
   </div>
   <div class="progress-container" *ngIf="!showStartScreen">
