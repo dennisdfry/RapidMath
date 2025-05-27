@@ -17,6 +17,7 @@ interface Card {
   styleUrl: './memory-game.component.scss'
 })
 export class MemoryGameComponent implements OnInit {
+  startGame:boolean = true;
   cards: Card[] = [];
   flippedCards: Card[] = [];
   score = 0;
@@ -24,6 +25,10 @@ export class MemoryGameComponent implements OnInit {
 
   ngOnInit(): void {
     this.resetGame();
+  }
+
+  startMindPairs(){
+    this.startGame = !this.startGame;
   }
 
   resetGame(): void {

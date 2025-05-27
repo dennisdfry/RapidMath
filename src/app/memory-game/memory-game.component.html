@@ -1,4 +1,13 @@
-<section>
+<section *ngIf="startGame">
+    <div class="reaction-container" >
+    <h2>🃏 MindPairs</h2>
+    <p>
+    In diesem Memory-Spiel kommt es auf Konzentration, Merkfähigkeit und Schnelligkeit an. Decke die Karten auf, finde die passenden Paare und knacke deinen Highscore – Runde für Runde wird es schwieriger!
+    </p>
+    <button class="start-button" (click)="startMindPairs()">▶ Spiel starten</button>
+  </div>
+</section>
+<section  *ngIf="!startGame">
   <div class="game-container">
     <!-- <p>Punkte: {{ score }}</p> -->
     <div class="grid">
