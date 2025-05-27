@@ -45,8 +45,9 @@ export class MathematicsComponent {
   showLevelBooleanSubtraction: boolean = false;
   showLevelBooleanMulti: boolean = false;
   showLevelBooleanDivision: boolean = false;
-  barWidth = 100;
+  barWidth:number = 100;
   startCountDown: number = 0;
+  infoField:boolean = true;
   countDownInterval: any;
     levelSettings: Record<Operator, { min: number; max: number }> = {
     '+': { min: 1, max: 11 },
@@ -77,6 +78,10 @@ currentLevels: Record<Operator, number> = {
 
   constructor() { };
 
+
+  overview(){
+  this.infoField = !this.infoField;
+  }
   InitOperator() {
     for (let index = 1; index < 11; index++) {
       if (this.operator === '/') {
