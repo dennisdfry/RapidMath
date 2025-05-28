@@ -73,11 +73,16 @@ section {
     border-radius: 6px;
     cursor: pointer;
     transition: background-color 0.3s;
+
     &:hover {
       background-color: #c6c0b6;
     }
   }
 }
+p{
+  padding:8px;
+}
+
 .reaction-container {
   display: flex;
   justify-content: center;
@@ -87,42 +92,42 @@ section {
   font-family: sans-serif;
   background-color: white;
   color: #585b51;
-  width:300px;
-  height:500px;
-  padding:16px;
+  width: 300px;
+  height: 500px;
   border-radius: 32px;
 }
 
 .start-button {
-    padding: 12px 24px;
-    width: 180px;
-    font-size: 18px;
-    background-color: #4caf50;
-    border: none;
-    border-radius: 8px;
-    color: white;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-    &:hover {
-        background-color: white;
-        color:#4caf50;
-    }
+  padding: 12px 24px;
+  width: 180px;
+  font-size: 18px;
+  background-color: #4caf50;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: white;
+    color: #4caf50;
+  }
 }
 
 .home-button {
-    background-color: #dad4c9;
-    color: #5a5c52;
-    border: none;
-    width: 180px;
-    margin: 8px;
-    padding: 12px 24px;
-    font-size: 18px;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s;
+  background-color: #dad4c9;
+  color: #5a5c52;
+  border: none;
+  width: 180px;
+  margin: 8px;
+  padding: 12px 24px;
+  font-size: 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
 
-    &:hover {
-        background-color: white;
-        color:#5a5c52;
-    }
+  &:hover {
+    background-color: white;
+    color: #5a5c52;
+  }
 }

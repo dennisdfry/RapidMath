@@ -21,6 +21,8 @@ export class MemoryGameComponent implements OnInit {
   cards: Card[] = [];
   flippedCards: Card[] = [];
   score = 0;
+  currentIndex:number = 0;
+  imageAmount: number = 0;
   level = [
     {level:1, cards:4},
     {level:2, cards:5},
@@ -32,6 +34,7 @@ export class MemoryGameComponent implements OnInit {
   '🍕', '🚀', '🐸', '📚', '🎲', '🎈', '🧩'];
 
   ngOnInit(): void {
+    
     this.resetGame();
   }
 
@@ -40,10 +43,14 @@ export class MemoryGameComponent implements OnInit {
   }
 
   resetGame(): void {
-    const doubledImages = [...this.images, ...this.images];
+    this.imageAmount = this.level[this.currentIndex].cards;
+    console.log(this.imageAmount);
+    const selectedImages = this.images.slice(0, this.imageAmount);
+    const doubledImages = [...selectedImages, ...selectedImages];
+    console.log(doubledImages);
     const shuffled = doubledImages
-      .map((img, i) => ({ id: i, image: img, matched: false, flipped: false }))
-      .sort(() => Math.random() - 0.5);
+  .map((img, i) => ({ id: i, image: img, matched: false, flipped: false }))
+  .sort(() => Math.random() - 0.5);
     console.log(shuffled)
     this.cards = shuffled;
     this.flippedCards = [];
@@ -68,11 +75,21 @@ export class MemoryGameComponent implements OnInit {
       first.matched = true;
       second.matched = true;
       this.score++;
+      console.log(this.score)
+      if(this.score === this.level[this.currentIndex].cards){
+        this.nextLevel();
+      }
     } else {
       first.flipped = false;
       second.flipped = false;
     }
-
     this.flippedCards = [];
+  }
+  nextLevel(){
+    if(this.currentIndex === 5){
+      return
+    }else{
+      this.currentIndex++;
+    }
   }
 }
