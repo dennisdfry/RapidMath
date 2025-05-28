@@ -37,9 +37,8 @@
         </div>
 
     </div>
-    <div class="operator-class-container route-to_mainpage">
-        <button *ngIf="startbutton" class="startButton" [routerLink]="['/mainpage']" mat-raised-button
-            aria-label="Button that displays a tooltip that has custom delays through a default config">back</button>
+    <div *ngIf="startbutton" class="operator-class-container home-button">
+        <button class="home-button" [routerLink]="['/mainpage']">🏠 Home</button>
     </div>
     <div *ngIf="playGame">
         <div class="operation-container">

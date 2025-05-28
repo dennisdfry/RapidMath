@@ -6,6 +6,8 @@ import { MemoryGameComponent } from './memory-game/memory-game.component';
 import { ReactionMatrixComponent } from './reaction-matrix/reaction-matrix.component';
 import { ColorFocusComponent } from './color-focus/color-focus.component';
 import { AuthComponent } from './auth/auth.component';
+import { ImpressumComponent } from './impressum/impressum.component';
+import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
 
 export const routes: Routes = [
     {path:'', component: AuthComponent},
@@ -14,5 +16,7 @@ export const routes: Routes = [
     {path:'visuality', component: BrainJoggingCanvasComponent},
     {path:'memory', component: MemoryGameComponent},
     {path:'matrix', component: ReactionMatrixComponent},
-    {path:'color-focus', component: ColorFocusComponent}
+    {path:'color-focus', component: ColorFocusComponent},
+    {path:'impressum', component: ImpressumComponent},
+    {path:'privacy-policy', component:PrivacyPolicyComponent}
 ];
