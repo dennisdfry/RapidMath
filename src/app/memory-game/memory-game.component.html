@@ -10,7 +10,6 @@
 </section>
 <section  *ngIf="!startGame">
   <div class="game-container">
-    <!-- <p>Punkte: {{ score }}</p> -->
     <div class="grid">
       <div class="card" *ngFor="let card of cards" [class.flipped]="card.flipped || card.matched"
         (click)="flipCard(card)">
@@ -20,7 +19,7 @@
         </div>
       </div>
     </div>
-    <button class="restart-button" (click)="resetGame()">Neustarten</button>
-    <button class="restart-button" [routerLink]="['/mainpage']">Back</button>
+    <button class="start-button" (click)="resetGame()">New Game</button>
+    <button class="home-button" [routerLink]="['/mainpage']">🏠 Home</button>
   </div>
 </section>

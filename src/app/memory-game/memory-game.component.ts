@@ -21,7 +21,15 @@ export class MemoryGameComponent implements OnInit {
   cards: Card[] = [];
   flippedCards: Card[] = [];
   score = 0;
-  images = ['🍎', '🚗', '🐶', '🎵', '🏀', '🐱', '🌈', '🌻'];
+  level = [
+    {level:1, cards:4},
+    {level:2, cards:5},
+    {level:3, cards:7},
+    {level:4, cards:9},
+    {level:5, cards:10},
+  ]
+  images = ['🍎', '🚗', '🐶', '🎵', '🏀', '🐱', '🌈', '🌻',
+  '🍕', '🚀', '🐸', '📚', '🎲', '🎈', '🧩'];
 
   ngOnInit(): void {
     this.resetGame();
@@ -36,7 +44,7 @@ export class MemoryGameComponent implements OnInit {
     const shuffled = doubledImages
       .map((img, i) => ({ id: i, image: img, matched: false, flipped: false }))
       .sort(() => Math.random() - 0.5);
-
+    console.log(shuffled)
     this.cards = shuffled;
     this.flippedCards = [];
     this.score = 0;
