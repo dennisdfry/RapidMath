@@ -55,22 +55,15 @@ export class BrainJoggingCanvasComponent implements AfterViewInit, OnDestroy {
 
 
   startGame(): void {
-    const canvas = this.canvasRef?.nativeElement;
-    if (!canvas || !this.ctx) {
-      this.ctx = canvas?.getContext('2d')!;
-      if (!this.ctx) {
-        console.error('Canvas-Kontext konnte nicht erstellt werden.');
-        return;
-      }
-    }
-    this.showStartScreen = false;
-    this.score = 0;
-    this.endGameSequenz = false;
-    this.secondPhaseStarted = false;
-    this.clickedPoints = [];
+    this.initCanvas();
+    this.resetVariable();
     this.generateRandomPoints();
-    this.startTime = Date.now();
     this.draw();
+    this.initIntervals();
+  }
+
+  initIntervals() {
+    this.startTime = Date.now();
     this.rearrangeIntervalId = setInterval(() => {
       this.rearrangeRemainingPoints();
     }, this.colorChangeInterval);
@@ -82,6 +75,25 @@ export class BrainJoggingCanvasComponent implements AfterViewInit, OnDestroy {
       this.progressPercent = Math.min((elapsed / this.gameDuration) * 100, 100);
       console.log(elapsed)
     }, 100);
+  }
+
+  resetVariable() {
+    this.showStartScreen = false;
+    this.score = 0;
+    this.endGameSequenz = false;
+    this.secondPhaseStarted = false;
+    this.clickedPoints = [];
+  }
+
+  initCanvas() {
+    const canvas = this.canvasRef?.nativeElement;
+    if (!canvas || !this.ctx) {
+      this.ctx = canvas?.getContext('2d')!;
+      if (!this.ctx) {
+        console.error('Canvas-Kontext konnte nicht erstellt werden.');
+        return;
+      }
+    }
   }
 
   ngAfterViewInit(): void {
@@ -133,11 +145,10 @@ export class BrainJoggingCanvasComponent implements AfterViewInit, OnDestroy {
     for (let i = 0; i < this.points.length; i++) {
       const p = this.points[i];
       const dist = Math.hypot(p.x - clickX, p.y - clickY);
-
       if (dist <= p.radius && p.numberOfPoint === this.firstPointRef) {
         this.firstPointRef++;
         this.score++;
-        if (this.score === 2) {
+        if (this.score === this.newLevel) {
           this.nextLevel();
           this.firstPointRef = 0
         } else {
@@ -156,13 +167,13 @@ export class BrainJoggingCanvasComponent implements AfterViewInit, OnDestroy {
     let attempts = 0;
     const colorCount = this.colors.length;
     console.log(this.levels);
-      for (let index = 0; index < this.levels.length; index++) {
-        const element = this.levels[index];
-        console.log(element.level);
-        if (element.level === this.currentLevel) {
-          this.newLevel = this.levels[index].points;
-        }
+    for (let index = 0; index < this.levels.length; index++) {
+      const element = this.levels[index];
+      console.log(element.level);
+      if (element.level === this.currentLevel) {
+        this.newLevel = this.levels[index].points;
       }
+    }
     for (let i = 0; i < this.newLevel; i++) {
       let validPoint = false;
       while (!validPoint && attempts < 500) {
@@ -171,7 +182,7 @@ export class BrainJoggingCanvasComponent implements AfterViewInit, OnDestroy {
           y: Math.random() * (this.CANVAS_HEIGHT - 40) + 20,
           radius: 20,
           numberOfPoint: i,
-          colorIndex: Math.floor(Math.random() * colorCount) 
+          colorIndex: Math.floor(Math.random() * colorCount)
         };
         let overlaps = false;
         for (const p of this.points) {
