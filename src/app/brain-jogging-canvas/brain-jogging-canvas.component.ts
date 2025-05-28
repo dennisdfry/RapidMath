@@ -98,11 +98,6 @@ export class BrainJoggingCanvasComponent implements AfterViewInit, OnDestroy {
 
   ngAfterViewInit(): void {
     const canvas = this.canvasRef?.nativeElement;
-    if (!canvas) {
-      console.error('Canvas nicht gefunden.');
-      return;
-    }
-    this.ctx = canvas.getContext('2d')!;
     canvas.addEventListener('click', this.handleClick.bind(this));
     canvas.addEventListener('mousemove', this.handleMouseMove.bind(this));
   }
