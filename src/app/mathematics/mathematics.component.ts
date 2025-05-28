@@ -139,37 +139,12 @@ currentLevels: Record<Operator, number> = {
     return Math.floor(Math.random() * (this.max - this.min + 1)) + this.min;
   }
 
-  // async startGame(operatorHtml: Operator) {
-  //   this.min = this.levelSettings[this.operator].min;
-  //   this.max = this.levelSettings[this.operator].max;
-  //   console.log(this.min);
-  //       console.log(this.max);
-    
-
-  //   this.operator = operatorHtml;
-  //   console.log(this.operator);
-  //   await this.checkOperator();
-  //   this.InitOperator();
-  //   this.startbutton = false;
-  //   this.operationIndex = 0;
-  //   this.InitOperation();
-  //   this.createRandomResults();
-  //   this.playGame = true;
-  //   this.startCountdownBar(30);
-  //   console.log(this.nextPointArrayAddition)
-  //   console.log(this.nextPointArrayMulti)
-  //   console.log(this.nextPointArraySubtraction)
-  //   console.log(this.nextPointArrayDivision)
-  // }
-
   async startGame(operatorHtml: Operator) {
   this.operator = operatorHtml;
-
   const currentLevel = this.currentLevels[this.operator];
   const bounds = this.levelBoundaries[currentLevel];
   this.min = bounds.min;
   this.max = bounds.max;
-
   await this.checkOperator();
   this.InitOperator();
   this.startbutton = false;
@@ -198,18 +173,6 @@ currentLevels: Record<Operator, number> = {
     this.countDownInterval = null;
   }
 
-
-  // createRandomResults() {
-  //   while (this.randowResultsArray.length < 4) {
-  //     const result = this.mathRandomizer();
-  //     if (!this.randowResultsArray.includes(result)) {
-  //       this.randowResultsArray.push(result);
-  //     }
-  //   }
-  //   console.log(this.randowResultsArray);
-  //   this.shuffleArray()
-  // }
-
   createRandomResults() {
   const correctResult = this.operation;
   const variations = new Set<number>();
@@ -223,12 +186,9 @@ currentLevels: Record<Operator, number> = {
     }
     attempts++;
   }
-
-  // Fallback, falls es nicht genug Variationen gibt
   while (variations.size < 4) {
     variations.add(this.mathRandomizer());
   }
-
   this.randowResultsArray = Array.from(variations);
   this.shuffleArray();
 }
@@ -298,7 +258,7 @@ generateNearbyResult(correctResult: number): number {
 
   increaseArethmetikNumber(operator: Operator) {
   const level = Math.min(this.currentLevels[operator] + 1, 10);
-  this.currentLevels[operator] = level; // level erhöhen
+  this.currentLevels[operator] = level;
 }
 
   nextround() {
@@ -313,7 +273,6 @@ generateNearbyResult(correctResult: number): number {
     this.playGame = false;
     this.startbutton = true;
     this.randowResultsArray = [];
-    console.log(this.operator)
     this.cleararethmeticArrays();
     this.nextLevel();
   }
@@ -321,19 +280,15 @@ generateNearbyResult(correctResult: number): number {
   nextLevel() {
     if (this.operator === '+') {
       this.nextPointArrayAddition.push(1);
-      console.log(this.nextPointArrayAddition)
     }
     if (this.operator === '-') {
       this.nextPointArraySubtraction.push(1);
-      console.log(this.nextPointArraySubtraction)
     }
     if (this.operator === '*') {
       this.nextPointArrayMulti.push(1);
-      console.log(this.nextPointArrayMulti)
     }
     if (this.operator === '/') {
       this.nextPointArrayDivision.push(1);
-      console.log(this.nextPointArrayDivision)
     }
   }
 
@@ -348,7 +303,7 @@ generateNearbyResult(correctResult: number): number {
   check(result: number) {
     if (this.operation == result) {
       this.nextround();
-      if (this.operationIndex === 3) {
+      if (this.operationIndex === 10) {
         this.finish();
       }
     } else {

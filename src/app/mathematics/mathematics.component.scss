@@ -10,8 +10,6 @@ section {
 }
 
 .mathe-wrap {
-    width: 500px;
-    height: 400px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -32,8 +30,8 @@ section {
     background-color: #dad4c9;
     color: #5a5c52;
     border: none;
-    width: 150px;
-    height: 150px;
+    width: 120px;
+    height: 120px;
     margin: 8px;
     padding: 16px;
     font-size: 32px;
@@ -82,8 +80,8 @@ section {
 }
 
 .level-container {
-    width: 550px;
-    height: 550px;
+    width:300px;
+    height: 500px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -114,7 +112,7 @@ section {
 }
 
 .bar {
-    background-color: #dad4c9;
+    background-color: #4caf50;
     height: 100%;
     border-radius: 8px;
 }
@@ -150,7 +148,6 @@ section {
     color: #585b51;
     width: 300px;
     height: 500px;
-    padding: 16px;
     border-radius: 32px;
 }
 
@@ -170,4 +167,13 @@ section {
         background-color: white;
         color:#5a5c52;
     }
+}
+
+@media (max-width:480px) {
+    .random-results-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    
+}
 }
