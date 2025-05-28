@@ -102,59 +102,50 @@ export class BrainJoggingCanvasComponent implements AfterViewInit, OnDestroy {
     canvas.addEventListener('mousemove', this.handleMouseMove.bind(this));
   }
 
-  handleMouseMove(event: MouseEvent): void {
-    const rect = this.canvasRef.nativeElement.getBoundingClientRect();
-    const mouseX = event.clientX - rect.left;
-    const mouseY = event.clientY - rect.top;
-    let found = false;
-    for (let i = 0; i < this.points.length; i++) {
-      const p = this.points[i];
-      const dist = Math.hypot(p.x - mouseX, p.y - mouseY);
-      if (dist <= p.radius) {
-        this.hoveredPointIndex = i;
-        found = true;
-        break;
-      }
-    }
-    if (!found) {
-      this.hoveredPointIndex = null;
-    }
-    const canvasEl = this.canvasRef.nativeElement;
-    canvasEl.style.cursor = found ? 'pointer' : 'default';
-  }
-
-  ngOnDestroy(): void {
-    if (typeof cancelAnimationFrame !== 'undefined') {
-      cancelAnimationFrame(this.animationFrameId);
-    }
-    clearInterval(this.rearrangeIntervalId);
-    clearInterval(this.updateProgressId);
-    clearTimeout(this.gameTimeoutId);
-  }
-
-  handleClick(event: MouseEvent): void {
-    const rect = this.canvasRef.nativeElement.getBoundingClientRect();
-    const clickX = event.clientX - rect.left;
-    const clickY = event.clientY - rect.top;
-
-    for (let i = 0; i < this.points.length; i++) {
-      const p = this.points[i];
-      const dist = Math.hypot(p.x - clickX, p.y - clickY);
-      if (dist <= p.radius && p.numberOfPoint === this.firstPointRef) {
-        this.firstPointRef++;
-        this.score++;
-        if (this.score === this.newLevel) {
-          this.nextLevel();
-          this.firstPointRef = 0
-        } else {
-          console.log(this.score);
-          this.clickedPoints.push(p);
-          this.points.splice(i, 1);
-          break;
-        }
-      }
+  private getHoveredPointIndex(x: number, y: number): number | null {
+  for (let i = 0; i < this.points.length; i++) {
+    const p = this.points[i];
+    const dist = Math.hypot(p.x - x, p.y - y);
+    if (dist <= p.radius) {
+      return i;
     }
   }
+  return null;
+}
+
+handleMouseMove(event: MouseEvent): void {
+  const rect = this.canvasRef.nativeElement.getBoundingClientRect();
+  const mouseX = event.clientX - rect.left;
+  const mouseY = event.clientY - rect.top;
+
+  const index = this.getHoveredPointIndex(mouseX, mouseY);
+  this.hoveredPointIndex = index;
+  this.canvasRef.nativeElement.style.cursor = index !== null ? 'pointer' : 'default';
+}
+
+handleClick(event: MouseEvent): void {
+  const rect = this.canvasRef.nativeElement.getBoundingClientRect();
+  const clickX = event.clientX - rect.left;
+  const clickY = event.clientY - rect.top;
+
+  const index = this.getHoveredPointIndex(clickX, clickY);
+  if (index === null) return;
+
+  const p = this.points[index];
+  if (p.numberOfPoint === this.firstPointRef) {
+    this.firstPointRef++;
+    this.score++;
+
+    if (this.score === this.newLevel) {
+      this.nextLevel();
+      this.firstPointRef = 0;
+    } else {
+      console.log(this.score);
+      this.clickedPoints.push(p);
+      this.points.splice(index, 1);
+    }
+  }
+}
 
   generateRandomPoints(): void {
     this.points = [];
@@ -268,4 +259,14 @@ export class BrainJoggingCanvasComponent implements AfterViewInit, OnDestroy {
     clearInterval(this.updateProgressId);
     this.showStartScreen = true;
   }
+
+   ngOnDestroy(): void {
+    if (typeof cancelAnimationFrame !== 'undefined') {
+      cancelAnimationFrame(this.animationFrameId);
+    }
+    clearInterval(this.rearrangeIntervalId);
+    clearInterval(this.updateProgressId);
+    clearTimeout(this.gameTimeoutId);
+  }
+
 }
