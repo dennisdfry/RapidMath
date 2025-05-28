@@ -17,8 +17,8 @@ section {
 
 .start-screen-overlay {
   background-color: white;
-  width:300px;
-  height:500px;
+  width: 300px;
+  height: 500px;
   padding: 32px;
   border-radius: 32px;
   display: flex;
@@ -67,14 +67,16 @@ canvas {
 .progress-container {
   display: flex;
   align-items: center;
+  flex-direction: column;
   justify-content: space-between;
   margin-top: 1rem;
-  width: 800px;
+  width: 300px;
 }
 
 .progress-bar {
   height: 20px;
-  background-color: #5a5c52;
+  background-color: #4caf50;
+  border-radius: 8px;
 }
 
 .level-display {
@@ -83,38 +85,40 @@ canvas {
 }
 
 .start-button {
-    padding: 12px 24px;
-    width: 180px;
-    font-size: 18px;
-    background-color: #4caf50;
-    border: none;
-    border-radius: 8px;
-    color: white;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-    &:hover {
-        background-color: white;
-        color:#4caf50;
-    }
+  padding: 12px 24px;
+  width: 180px;
+  font-size: 18px;
+  background-color: #4caf50;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: white;
+    color: #4caf50;
+  }
 }
-p{
+
+p {
   text-align: center;
 }
 
 .home-button {
-    background-color: #dad4c9;
-    color: #5a5c52;
-    border: none;
-    width: 180px;
-    margin: 8px;
-    padding: 12px 24px;
-    font-size: 18px;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s;
+  background-color: #dad4c9;
+  color: #5a5c52;
+  border: none;
+  width: 180px;
+  margin: 8px;
+  padding: 12px 24px;
+  font-size: 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
 
-    &:hover {
-        background-color: white;
-        color:#5a5c52;
-    }
+  &:hover {
+    background-color: white;
+    color: #5a5c52;
   }
+}
