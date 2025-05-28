@@ -24,6 +24,7 @@
         {{ color | titlecase }}
       </button>
     </div>
+    <button class="home-button" [routerLink]="['/mainpage']">🏠 Home</button>
   </div>
 
   <div class="color-focus-container" *ngIf="gameOver && !gameStarted">

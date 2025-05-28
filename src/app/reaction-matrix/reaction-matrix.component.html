@@ -16,5 +16,6 @@
     <div class="grid">
       <div class="cell" *ngFor="let cell of grid" [class.active]="cell.isActive" (click)="handleClick(cell)"></div>
     </div>
+    <button class="home-button" [routerLink]="['/mainpage']">🏠 Home</button>
   </div>
 </section>
