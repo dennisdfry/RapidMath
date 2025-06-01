@@ -132,7 +132,7 @@ export class BrainJoggingCanvasComponent implements AfterViewInit, OnDestroy {
     this.handleClickCheckNextLevel(index, p)
   }
 
-  handleClickCheckNextLevel(index:number, p:Point){
+  handleClickCheckNextLevel(index: number, p: Point) {
     if (p.numberOfPoint === this.firstPointRef) {
       this.firstPointRef++;
       this.score++;
@@ -146,19 +146,21 @@ export class BrainJoggingCanvasComponent implements AfterViewInit, OnDestroy {
     }
   }
 
+  initPointsForLevel() {
+    for (let index = 0; index < this.levels.length; index++) {
+      const element = this.levels[index];
+      if (element.level === this.currentLevel) {
+        this.newLevel = this.levels[index].points;
+      }
+    }
+  }
+
   generateRandomPoints(): void {
     this.points = [];
     const minDistance = 2 * 20 + 10;
     let attempts = 0;
     const colorCount = this.colors.length;
-    console.log(this.levels);
-    for (let index = 0; index < this.levels.length; index++) {
-      const element = this.levels[index];
-      console.log(element.level);
-      if (element.level === this.currentLevel) {
-        this.newLevel = this.levels[index].points;
-      }
-    }
+    this.initPointsForLevel();
     for (let i = 0; i < this.newLevel; i++) {
       let validPoint = false;
       while (!validPoint && attempts < 500) {
@@ -188,30 +190,37 @@ export class BrainJoggingCanvasComponent implements AfterViewInit, OnDestroy {
 
   rearrangeRemainingPoints(): void {
     this.secondPhaseStarted = true;
+
     const remainingPoints = [...this.points];
     this.points = [];
-    const minDistance = 2 * 20 + 10;
-    let attempts = 0;
+
+    const minDistance = 50;
+
     for (const p of remainingPoints) {
-      let validPoint = false;
-      while (!validPoint && attempts < 500) {
-        const newX = Math.random() * (this.CANVAS_WIDTH - 40) + 20;
-        const newY = Math.random() * (this.CANVAS_HEIGHT - 40) + 20;
-        let overlaps = false;
-        for (const placed of this.points) {
-          const dist = Math.hypot(placed.x - newX, placed.y - newY);
-          if (dist < minDistance) {
-            overlaps = true;
-            break;
-          }
-        }
-        if (!overlaps) {
-          this.points.push({ ...p, x: newX, y: newY });
-          validPoint = true;
-        }
-        attempts++;
+      const newPosition = this.findValidPosition(minDistance);
+      if (newPosition) {
+        this.points.push({ ...p, ...newPosition });
       }
     }
+  }
+
+  private findValidPosition(minDistance: number, maxAttempts = 500): { x: number, y: number } | null {
+    for (let i = 0; i < maxAttempts; i++) {
+      const x = Math.random() * (this.CANVAS_WIDTH - 40) + 20;
+      const y = Math.random() * (this.CANVAS_HEIGHT - 40) + 20;
+
+      if (this.isPositionValid(x, y, minDistance)) {
+        return { x, y };
+      }
+    }
+    return null;
+  }
+
+  private isPositionValid(x: number, y: number, minDistance: number): boolean {
+    return this.points.every(p => {
+      const dist = Math.hypot(p.x - x, p.y - y);
+      return dist >= minDistance;
+    });
   }
 
   nextLevel() {
