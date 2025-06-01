@@ -155,47 +155,77 @@ export class BrainJoggingCanvasComponent implements AfterViewInit, OnDestroy {
     }
   }
 
+  // generateRandomPoints(): void {
+  //   this.points = [];
+  //   const minDistance = 2 * 20 + 10;
+  //   let attempts = 0;
+  //   const colorCount = this.colors.length;
+  //   this.initPointsForLevel();
+  //   for (let i = 0; i < this.newLevel; i++) {
+  //     let validPoint = false;
+  //     while (!validPoint && attempts < 500) {
+  //       const newPoint = {
+  //         x: Math.random() * (this.CANVAS_WIDTH - 40) + 20,
+  //         y: Math.random() * (this.CANVAS_HEIGHT - 40) + 20,
+  //         radius: 20,
+  //         numberOfPoint: i,
+  //         colorIndex: Math.floor(Math.random() * colorCount)
+  //       };
+  //       let overlaps = false;
+  //       for (const p of this.points) {
+  //         const dist = Math.hypot(p.x - newPoint.x, p.y - newPoint.y);
+  //         if (dist < minDistance) {
+  //           overlaps = true;
+  //           break;
+  //         }
+  //       }
+  //       if (!overlaps) {
+  //         this.points.push(newPoint);
+  //         validPoint = true;
+  //       }
+  //       attempts++;
+  //     }
+  //   }
+  // }
+
   generateRandomPoints(): void {
-    this.points = [];
-    const minDistance = 2 * 20 + 10;
-    let attempts = 0;
-    const colorCount = this.colors.length;
-    this.initPointsForLevel();
-    for (let i = 0; i < this.newLevel; i++) {
-      let validPoint = false;
-      while (!validPoint && attempts < 500) {
-        const newPoint = {
-          x: Math.random() * (this.CANVAS_WIDTH - 40) + 20,
-          y: Math.random() * (this.CANVAS_HEIGHT - 40) + 20,
-          radius: 20,
-          numberOfPoint: i,
-          colorIndex: Math.floor(Math.random() * colorCount)
-        };
-        let overlaps = false;
-        for (const p of this.points) {
-          const dist = Math.hypot(p.x - newPoint.x, p.y - newPoint.y);
-          if (dist < minDistance) {
-            overlaps = true;
-            break;
-          }
-        }
-        if (!overlaps) {
-          this.points.push(newPoint);
-          validPoint = true;
-        }
-        attempts++;
-      }
+  this.points = [];
+  this.initPointsForLevel();
+
+  const minDistance = 2 * 20 + 10;
+  const colorCount = this.colors.length;
+
+  for (let i = 0; i < this.newLevel; i++) {
+    const point = this.findValidPoint(i, colorCount, minDistance);
+    if (point) {
+      this.points.push(point);
     }
   }
+}
+
+
+private findValidPoint(index: number, colorCount: number, minDistance: number, maxAttempts = 500): any | null {
+  for (let attempt = 0; attempt < maxAttempts; attempt++) {
+    const candidate = {
+      x: Math.random() * (this.CANVAS_WIDTH - 40) + 20,
+      y: Math.random() * (this.CANVAS_HEIGHT - 40) + 20,
+      radius: 20,
+      numberOfPoint: index,
+      colorIndex: Math.floor(Math.random() * colorCount)
+    };
+
+    if (this.isPositionValid(candidate.x, candidate.y, minDistance)) {
+      return candidate;
+    }
+  }
+  return null;
+}
 
   rearrangeRemainingPoints(): void {
     this.secondPhaseStarted = true;
-
     const remainingPoints = [...this.points];
     this.points = [];
-
     const minDistance = 50;
-
     for (const p of remainingPoints) {
       const newPosition = this.findValidPosition(minDistance);
       if (newPosition) {
@@ -208,7 +238,6 @@ export class BrainJoggingCanvasComponent implements AfterViewInit, OnDestroy {
     for (let i = 0; i < maxAttempts; i++) {
       const x = Math.random() * (this.CANVAS_WIDTH - 40) + 20;
       const y = Math.random() * (this.CANVAS_HEIGHT - 40) + 20;
-
       if (this.isPositionValid(x, y, minDistance)) {
         return { x, y };
       }
