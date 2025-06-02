@@ -90,6 +90,7 @@ export class MemoryGameComponent implements OnInit {
       return
     }else{
       this.currentIndex++;
+        this.resetGame();
     }
   }
 }

@@ -16,10 +16,12 @@ section {
   border-radius: 10px;
 
   .grid {
-    display: grid;
-    grid-template-columns: repeat(4, 50px);
-    gap: 10px;
+    // display: grid;
+    // grid-template-columns: repeat(4, 50px);
+    display: flex;
+    flex-wrap: wrap;
     justify-content: center;
+    gap: 10px;
     margin: 20px 0;
     align-items: center;
   }
@@ -79,8 +81,9 @@ section {
     }
   }
 }
-p{
-  padding:8px;
+
+p {
+  padding: 8px;
 }
 
 .reaction-container {
